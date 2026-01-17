@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <title>Karina & David – Mariage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karina & David - Mariage</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,33 +21,39 @@
 </header>
 
 <nav class="main-nav">
-    <a href="#about">Notre Histoire</a>
-    <a href="#infos">Infos</a>
+    <a href="#about">Notre histoire</a>
+    <a href="#infos">Informations</a>
     <a href="#events">Programme</a>
     <a href="#rsvp">RSVP</a>
 </nav>
 
 <section id="about" class="section about">
-    <h2>Notre Histoire</h2>
-    <p>Bienvenue ! C’est avec joie que nous vous invitons à célébrer notre mariage entourés de nos proches. Merci d’être avec nous pour ce moment unique.</p>
-    <img src="images/couple.jpg" alt="Karina & David">
+    <h2>Notre histoire</h2>
+    <p>
+        C’est à travers les chemins de la vie que nos regards se sont croisés,
+        et c’est avec émotion que nous souhaitons aujourd’hui partager
+        ce moment unique entourés de ceux que nous aimons.
+    </p>
+    <img src="images/couple.jpg" alt="Karina et David">
 </section>
 
 <section id="infos" class="section infos">
-    <h2>Informations Importantes</h2>
+    <h2>Informations pratiques</h2>
     <div class="info-cards">
         <div class="card">
-            <h3>Date & Lieu</h3>
-            <p>Samedi 06 Juin 2026</p>
-            <p>Église Sainte-Marie, 75000 Paris, France</p>
+            <h3>Cérémonie</h3>
+            <p>20 octobre 2026</p>
+            <p>Séville, Espagne</p>
         </div>
         <div class="card">
-            <h3>Hébergement</h3>
-            <p>Hotel Le Château – Réservez avec code <strong>KD2026</strong></p>
+            <h3>Réception</h3>
+            <p>Détails à venir</p>
+            <p>Soirée festive andalouse</p>
         </div>
         <div class="card">
-            <h3>Transport</h3>
-            <p>Navettes prévues entre les lieux de cérémonie et de réception.</p>
+            <h3>Dress code</h3>
+            <p>Élégance romantique</p>
+            <p>Couleurs chaudes bienvenues</p>
         </div>
     </div>
 </section>
@@ -55,34 +61,31 @@
 <section id="events" class="section events">
     <h2>Programme</h2>
     <ul>
-        <li><strong>15h00</strong> – Cérémonie à l’église</li>
-        <li><strong>17h00</strong> – Vin d’honneur au Jardin</li>
+        <li><strong>15h00</strong> – Cérémonie</li>
+        <li><strong>17h30</strong> – Vin d’honneur</li>
         <li><strong>20h30</strong> – Dîner & soirée dansante</li>
     </ul>
 </section>
 
 <section id="rsvp" class="section rsvp">
-    <h2>RSVP</h2>
-    <form action="submit_rsvp.php" method="POST">
-        <label for="name">Nom & Prénom</label>
-        <input type="text" id="name" name="name" required>
-        
-        <label for="attending">Vous serez présent ?</label>
-        <select id="attending" name="attending" required>
-            <option value="">Choisir</option>
-            <option value="oui">Oui</option>
-            <option value="non">Non</option>
-        </select>
+    <h2>Confirmation de présence</h2>
+    <p class="rsvp-text">
+        Merci de confirmer votre présence avant le 1er septembre 2026.
+    </p>
 
-        <label for="message">Message aux mariés</label>
-        <textarea id="message" name="message"></textarea>
-
-        <button type="submit">Envoyer</button>
-    </form>
+    <div class="rsvp-button-container">
+        <a
+            href="https://forms.gle/UGCunpQ4da6gw2n2A"
+            target="_blank"
+            class="rsvp-link"
+        >
+            Confirmer ma présence
+        </a>
+    </div>
 </section>
 
 <footer class="footer">
-    <p>© 2026 Karina & David – Merci d’être avec nous 💕</p>
+    <p>© 2026 Karina & David · Séville</p>
 </footer>
 
 </body>

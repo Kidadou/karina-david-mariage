@@ -10,12 +10,12 @@
 /* GLOBAL */
 body {
     font-family: 'Montserrat', sans-serif;
+    background-color: #fafafa;
     color: #333;
     line-height: 1.6;
-    background-color: #fafafa;
 }
 
-/* HERO / HEADER */
+/* HERO */
 .hero {
     background: linear-gradient(
         rgba(0, 106, 113, 0.75),
@@ -24,8 +24,8 @@ body {
     url('images/hero-bg.jpg') center / cover no-repeat;
     height: 70vh;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
     color: #fff;
 }
@@ -41,10 +41,150 @@ body {
 }
 
 .hero .date {
-    font-size: 1.2rem;
     margin-top: 10px;
+    font-size: 1.2rem;
     font-weight: 300;
 }
 
 .hero .intro {
     margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* NAV */
+.main-nav {
+    background: #fff;
+    padding: 12px 0;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.main-nav a {
+    margin: 0 18px;
+    text-decoration: none;
+    color: #006A71;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.main-nav a:hover {
+    color: #b8860b;
+}
+
+/* SECTIONS */
+.section {
+    max-width: 1100px;
+    margin: auto;
+    padding: 60px 20px;
+}
+
+.section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #006A71;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ABOUT */
+.about p {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+}
+
+.about img {
+    display: block;
+    margin: 30px auto 0;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+}
+
+/* INFOS */
+.infos .info-cards {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1;
+    min-width: 250px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    font-family: 'Playfair Display', serif;
+    color: #b8860b;
+    margin-bottom: 10px;
+}
+
+/* EVENTS */
+.events ul {
+    list-style: none;
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+}
+
+.events li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* RSVP */
+.rsvp-text {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.rsvp-button-container {
+    text-align: center;
+}
+
+.rsvp-link {
+    display: inline-block;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, #006A71, #b8860b);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rsvp-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* FOOTER */
+.footer {
+    background: #f2f2f2;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section {
+        padding: 40px 15px;
+    }
+
+    .infos .info-cards {
+        flex-direction: column;
+    }
+}
