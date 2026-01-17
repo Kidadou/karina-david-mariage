@@ -1,18 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap');
+
+/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* GLOBAL */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #333;
     line-height: 1.6;
+    background-color: #fafafa;
 }
 
+/* HERO / HEADER */
 .hero {
-    background: url('images/hero-bg.jpg') center/cover no-repeat;
-    height: 60vh;
+    background: linear-gradient(
+        rgba(0, 106, 113, 0.75),
+        rgba(184, 134, 11, 0.65)
+    ),
+    url('images/hero-bg.jpg') center / cover no-repeat;
+    height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,85 +30,21 @@ body {
     color: #fff;
 }
 
-.hero h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-}
-
-.hero p {
-    font-size: 1.3rem;
-}
-
-.main-nav {
-    background: #fff;
-    padding: 10px 0;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-
-.main-nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.section {
-    padding: 40px 20px;
-    max-width: 1000px;
-    margin: auto;
-}
-
-.about img {
-    width: 100%;
-    margin-top: 20px;
-    border-radius: 8px;
-}
-
-.infos .info-cards {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.card {
-    background: #f9f9f9;
+.hero-content {
     padding: 20px;
-    border-radius: 8px;
-    flex: 1;
-    min-width: 200px;
 }
 
-.events ul {
-    list-style: none;
-    font-size: 1.1rem;
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    letter-spacing: 2px;
 }
 
-.rsvp form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.hero .date {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    font-weight: 300;
 }
 
-.rsvp input, .rsvp select, .rsvp textarea {
-    padding: 8px;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-}
-
-.rsvp button {
-    background: #8a2be2;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.footer {
-    background: #f1f1f1;
-    text-align: center;
-    padding: 15px 0;
-    font-size: 0.9rem;
-    margin-top: 40px;
-}
+.hero .intro {
+    margin-top: 20px;
