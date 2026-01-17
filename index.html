@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karina & David - Mariage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>Karina & David</h1>
+        <p>Le grand jour : 06 Juin 2026</p>
+    </div>
+</header>
+
+<nav class="main-nav">
+    <a href="#about">Notre Histoire</a>
+    <a href="#infos">Infos</a>
+    <a href="#events">Programme</a>
+    <a href="#rsvp">RSVP</a>
+</nav>
+
+<section id="about" class="section about">
+    <h2>Notre Histoire</h2>
+    <p>Bienvenue ! C’est avec joie que nous vous invitons à célébrer notre mariage entourés de nos proches. Merci d’être avec nous pour ce moment unique.</p>
+    <img src="images/couple.jpg" alt="Karina & David">
+</section>
+
+<section id="infos" class="section infos">
+    <h2>Informations Importantes</h2>
+    <div class="info-cards">
+        <div class="card">
+            <h3>Date & Lieu</h3>
+            <p>Samedi 06 Juin 2026</p>
+            <p>Église Sainte-Marie, 75000 Paris, France</p>
+        </div>
+        <div class="card">
+            <h3>Hébergement</h3>
+            <p>Hotel Le Château – Réservez avec code <strong>KD2026</strong></p>
+        </div>
+        <div class="card">
+            <h3>Transport</h3>
+            <p>Navettes prévues entre les lieux de cérémonie et de réception.</p>
+        </div>
+    </div>
+</section>
+
+<section id="events" class="section events">
+    <h2>Programme</h2>
+    <ul>
+        <li><strong>15h00</strong> – Cérémonie à l’église</li>
+        <li><strong>17h00</strong> – Vin d’honneur au Jardin</li>
+        <li><strong>20h30</strong> – Dîner & soirée dansante</li>
+    </ul>
+</section>
+
+<section id="rsvp" class="section rsvp">
+    <h2>RSVP</h2>
+    <form action="submit_rsvp.php" method="POST">
+        <label for="name">Nom & Prénom</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="attending">Vous serez présent ?</label>
+        <select id="attending" name="attending" required>
+            <option value="">Choisir</option>
+            <option value="oui">Oui</option>
+            <option value="non">Non</option>
+        </select>
+
+        <label for="message">Message aux mariés</label>
+        <textarea id="message" name="message"></textarea>
+
+        <button type="submit">Envoyer</button>
+    </form>
+</section>
+
+<footer class="footer">
+    <p>© 2026 Karina & David – Merci d’être avec nous 💕</p>
+</footer>
+
+</body>
+</html>
