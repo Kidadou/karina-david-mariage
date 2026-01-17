@@ -15,7 +15,53 @@ body {
     line-height: 1.6;
 }
 
-/* HERO */
+/* ================= MENU DÉROULANT (AJOUT UNIQUEMENT) ================= */
+
+.menu-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 5000;
+    font-size: 28px;
+    color: #fff;
+    background: linear-gradient(135deg, #006A71, #b8860b);
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.menu-dropdown {
+    position: fixed;
+    top: 75px;
+    right: 20px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    padding: 20px;
+    min-width: 220px;
+    display: none;
+    z-index: 4000;
+}
+
+.menu-dropdown a {
+    display: block;
+    text-decoration: none;
+    color: #006A71;
+    margin: 12px 0;
+    font-weight: 500;
+}
+
+.menu-dropdown a:hover {
+    color: #b8860b;
+}
+
+.menu-dropdown.open {
+    display: block;
+}
+
+/* ================= HERO ================= */
+
 .hero {
     background: linear-gradient(
         rgba(0, 106, 113, 0.75),
@@ -53,31 +99,12 @@ body {
     margin-right: auto;
 }
 
-/* NAV */
-.main-nav {
-    background: #fff;
-    padding: 12px 0;
-    text-align: center;
-    border-bottom: 1px solid #e0e0e0;
-}
+/* ================= SECTIONS ================= */
 
-.main-nav a {
-    margin: 0 18px;
-    text-decoration: none;
-    color: #006A71;
-    font-weight: 500;
-    letter-spacing: 1px;
-}
-
-.main-nav a:hover {
-    color: #b8860b;
-}
-
-/* SECTIONS */
 .section {
     max-width: 1100px;
     margin: auto;
-    padding: 60px 20px;
+    padding: 70px 20px;
 }
 
 .section h2 {
@@ -88,7 +115,8 @@ body {
     margin-bottom: 30px;
 }
 
-/* ABOUT */
+/* ================= HISTOIRE ================= */
+
 .about p {
     max-width: 700px;
     margin: auto;
@@ -97,13 +125,14 @@ body {
 
 .about img {
     display: block;
-    margin: 30px auto 0;
-    width: 100%;
+    margin: 35px auto 0;
     max-width: 600px;
-    border-radius: 12px;
+    width: 100%;
+    border-radius: 14px;
 }
 
-/* INFOS */
+/* ================= INFOS / CARTES ================= */
+
 .infos .info-cards {
     display: flex;
     gap: 25px;
@@ -111,11 +140,12 @@ body {
 }
 
 .card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 14px;
     flex: 1;
     min-width: 250px;
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
+    text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
@@ -125,7 +155,8 @@ body {
     margin-bottom: 10px;
 }
 
-/* EVENTS */
+/* ================= EVENTS ================= */
+
 .events ul {
     list-style: none;
     max-width: 500px;
@@ -138,7 +169,8 @@ body {
     font-size: 1.1rem;
 }
 
-/* RSVP */
+/* ================= RSVP ================= */
+
 .rsvp-text {
     text-align: center;
     margin-bottom: 25px;
@@ -150,38 +182,34 @@ body {
 
 .rsvp-link {
     display: inline-block;
-    padding: 14px 32px;
+    padding: 14px 34px;
     background: linear-gradient(135deg, #006A71, #b8860b);
     color: #fff;
     text-decoration: none;
     border-radius: 30px;
     font-size: 1rem;
     letter-spacing: 1px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.rsvp-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
+/* ================= FOOTER ================= */
 
-/* FOOTER */
 .footer {
     background: #f2f2f2;
     text-align: center;
-    padding: 20px 0;
+    padding: 22px 0;
     font-size: 0.9rem;
     color: #555;
 }
 
-/* RESPONSIVE */
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 768px) {
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2.4rem;
     }
 
     .section {
-        padding: 40px 15px;
+        padding: 50px 15px;
     }
 
     .infos .info-cards {

@@ -8,77 +8,93 @@
 </head>
 <body>
 
-<header class="hero">
+<!-- MENU -->
+<div class="menu-button" onclick="toggleMenu()">☰</div>
+
+<nav class="menu-dropdown" id="menu">
+    <a href="#histoire">Histoire</a>
+    <a href="#mairie">Mairie</a>
+    <a href="#accueil">Journée d’accueil</a>
+    <a href="#houppa">Houppa</a>
+    <a href="#soiree">Soirée</a>
+    <a href="#infos">Informations pratiques</a>
+    <a href="#presence">Présence</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
     <div class="hero-content">
         <h1>Karina & David</h1>
         <p class="date">20 octobre 2026 · Séville, Espagne</p>
         <p class="intro">
-            Sous le soleil andalou, au cœur de Séville,  
-            nous avons la joie de vous inviter à célébrer  
+            Sous le soleil andalou, au cœur de Séville,<br>
+            nous avons la joie de vous inviter à célébrer<br>
             l’un des plus beaux jours de notre vie.
         </p>
     </div>
-</header>
+</section>
 
-<nav class="main-nav">
-    <a href="#about">Notre histoire</a>
-    <a href="#infos">Informations</a>
-    <a href="#events">Programme</a>
-    <a href="#rsvp">RSVP</a>
-</nav>
+<!-- CONTENU (INCHANGÉ) -->
 
-<section id="about" class="section about">
+<section id="histoire" class="section about">
     <h2>Notre histoire</h2>
     <p>
-        C’est à travers les chemins de la vie que nos regards se sont croisés,
-        et c’est avec émotion que nous souhaitons aujourd’hui partager
-        ce moment unique entourés de ceux que nous aimons.
+        C’est au fil des rencontres et des hasards que nos chemins se sont liés.
+        Aujourd’hui, avec émotion, nous souhaitons partager ce moment unique
+        entourés de ceux que nous aimons.
     </p>
     <img src="images/couple.jpg" alt="Karina et David">
+</section>
+
+<section id="mairie" class="section infos">
+    <h2>La mairie</h2>
+    <div class="info-cards">
+        <div class="card">
+            <h3>Cérémonie civile</h3>
+            <p>Séville, Espagne</p>
+        </div>
+    </div>
+</section>
+
+<section id="accueil" class="section infos">
+    <h2>Journée d’accueil</h2>
+    <div class="info-cards">
+        <div class="card">
+            <p>Moment convivial pour se retrouver</p>
+        </div>
+    </div>
+</section>
+
+<section id="houppa" class="section events">
+    <h2>La houppa</h2>
+    <ul>
+        <li>Cérémonie religieuse</li>
+        <li>Moment d’émotion</li>
+    </ul>
+</section>
+
+<section id="soiree" class="section events">
+    <h2>La soirée</h2>
+    <ul>
+        <li>Vin d’honneur</li>
+        <li>Dîner & danse</li>
+    </ul>
 </section>
 
 <section id="infos" class="section infos">
     <h2>Informations pratiques</h2>
     <div class="info-cards">
-        <div class="card">
-            <h3>Cérémonie</h3>
-            <p>20 octobre 2026</p>
-            <p>Séville, Espagne</p>
-        </div>
-        <div class="card">
-            <h3>Réception</h3>
-            <p>Détails à venir</p>
-            <p>Soirée festive andalouse</p>
-        </div>
-        <div class="card">
-            <h3>Dress code</h3>
-            <p>Élégance romantique</p>
-            <p>Couleurs chaudes bienvenues</p>
-        </div>
+        <div class="card">Hébergement</div>
+        <div class="card">Transport</div>
+        <div class="card">Dress code</div>
     </div>
 </section>
 
-<section id="events" class="section events">
-    <h2>Programme</h2>
-    <ul>
-        <li><strong>15h00</strong> – Cérémonie</li>
-        <li><strong>17h30</strong> – Vin d’honneur</li>
-        <li><strong>20h30</strong> – Dîner & soirée dansante</li>
-    </ul>
-</section>
-
-<section id="rsvp" class="section rsvp">
-    <h2>Confirmation de présence</h2>
-    <p class="rsvp-text">
-        Merci de confirmer votre présence avant le 1er septembre 2026.
-    </p>
-
+<section id="presence" class="section rsvp">
+    <h2>Présence</h2>
+    <p class="rsvp-text">Merci de confirmer votre présence.</p>
     <div class="rsvp-button-container">
-        <a
-            href="https://forms.gle/UGCunpQ4da6gw2n2A"
-            target="_blank"
-            class="rsvp-link"
-        >
+        <a href="https://forms.gle/ABCDEFG123" class="rsvp-link" target="_blank">
             Confirmer ma présence
         </a>
     </div>
@@ -87,6 +103,13 @@
 <footer class="footer">
     <p>© 2026 Karina & David · Séville</p>
 </footer>
+
+<!-- JS MINIMAL POUR LE MENU -->
+<script>
+function toggleMenu() {
+    document.getElementById("menu").classList.toggle("open");
+}
+</script>
 
 </body>
 </html>
