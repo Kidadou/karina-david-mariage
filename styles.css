@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap');
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* GLOBAL */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fafafa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ================= MENU ================= */
+
+.menu-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 5000;
+    cursor: pointer;
+}
+
+.menu-button img {
+    width: 70px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+    transition: transform 0.25s ease;
+}
+
+.menu-button img:hover {
+    transform: scale(1.05);
+}
+
+.menu-dropdown {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    padding: 20px;
+    min-width: 220px;
+    display: none;
+    z-index: 4000;
+}
+
+.menu-dropdown.open {
+    display: block;
+}
+
+.menu-dropdown a {
+    display: block;
+    text-decoration: none;
+    color: #006A71;
+    margin: 12px 0;
+    font-weight: 500;
+}
+
+.menu-dropdown a:hover {
+    color: #b8860b;
+}
+
+/* ================= SECTIONS BASE ================= */
+
+.section {
+    max-width: 1100px;
+    margin: auto;
+    padding: 70px 20px;
+}
+
+.section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #006A71;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ================= HERO + NOTRE HISTOIRE ================= */
+
+.hero-wrapper {
+    background: url('images/hero-bg.jpg') center / cover no-repeat;
+}
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+}
+
+.hero .date {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+.hero .intro {
+    margin-top: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* NOTRE HISTOIRE */
+.about {
+    background: transparent;
+    padding-top: 80px;
+    padding-bottom: 140px;
+}
+
+.about h2 {
+    color: #fff;
+}
+
+.about p {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    background: rgba(255,255,255,0.9);
+    padding: 35px;
+    border-radius: 24px;
+}
+
+/* ================= MAIRIE ================= */
+
+#mairie {
+    background: url('images/fond-mairie.png') center / cover no-repeat;
+    max-width: none;
+    width: 100%;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#mairie .info-cards {
+    max-width: 1100px;
+    margin: auto;
+    background: transparent;
+}
+
+/* ================= JOURNÉE D’ACCUEIL ================= */
+
+#accueil {
+    background: url('images/fond-accueil.png') center / cover no-repeat;
+    max-width: none;
+    width: 100%;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#accueil .info-cards {
+    max-width: 1100px;
+    margin: auto;
+    background: transparent;
+}
+
+/* ================= HOUPPA + SOIRÉE ================= */
+
+.houppa-wrapper {
+    background: url('images/fond-houppa-soiree.png') center / cover no-repeat;
+    padding-top: 100px;
+    padding-bottom: 120px;
+}
+
+.houppa-wrapper ul {
+    background: rgba(255,255,255,0.9);
+    padding: 30px;
+    border-radius: 24px;
+    max-width: 500px;
+    margin: 30px auto;
+}
+
+/* ================= INFOS + PRÉSENCE ================= */
+
+.infos-wrapper {
+    background: url('images/fond-infos-presence.png') center / cover no-repeat;
+    padding-top: 100px;
+    padding-bottom: 120px;
+}
+
+.infos-wrapper .infos,
+.infos-wrapper .rsvp {
+    background: transparent;
+}
+
+.infos-wrapper .info-cards {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* ================= CARTES ================= */
+
+.infos .info-cards {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 14px;
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ================= EVENTS ================= */
+
+.events ul {
+    list-style: none;
+    text-align: center;
+}
+
+.events li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+/* ================= RSVP ================= */
+
+.rsvp-text {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.rsvp-link {
+    display: inline-block;
+    padding: 14px 34px;
+    background: linear-gradient(135deg, #006A71, #b8860b);
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background: #f2f2f2;
+    text-align: center;
+    padding: 22px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.4rem;
+    }
+
+    .infos .info-cards {
+        flex-direction: column;
+    }
+}
