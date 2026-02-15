@@ -1,292 +1,202 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap');
 
-/* =========================================================
-   RESET & BASE
-========================================================= */
+*{margin:0;padding:0;box-sizing:border-box;}
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body{
+font-family:'Montserrat',sans-serif;
+background:#fafafa;
+color:#006A71;
+line-height:1.6;
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #fafafa;
-    color: #006A71;
-    line-height: 1.6;
+/* MENU */
+
+.menu-button{
+position:fixed;
+top:20px;
+right:20px;
+z-index:5000;
+cursor:pointer;
 }
 
-/* =========================================================
-   MENU
-========================================================= */
-
-.menu-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 5000;
-    cursor: pointer;
+.menu-button img{
+width:70px;
+filter:drop-shadow(0 6px 12px rgba(0,0,0,0.35));
 }
 
-.menu-button img {
-    width: 70px;
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+.menu-dropdown{
+position:fixed;
+top:100px;
+right:20px;
+background:#fff;
+border-radius:14px;
+box-shadow:0 15px 30px rgba(0,0,0,0.25);
+padding:20px;
+display:none;
 }
 
-.menu-dropdown {
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-    padding: 20px;
-    min-width: 220px;
-    display: none;
-    z-index: 4000;
+.menu-dropdown.open{display:block;}
+
+/* SECTIONS */
+
+.section{
+max-width:1100px;
+margin:auto;
+padding:70px 20px;
+text-align:center;
 }
 
-.menu-dropdown.open {
-    display: block;
+.section h2{
+font-family:'Playfair Display',serif;
+margin-bottom:30px;
 }
-
-.menu-dropdown a {
-    display: block;
-    text-decoration: none;
-    color: #006A71;
-    margin: 12px 0;
-    font-weight: 500;
-}
-
-.menu-dropdown a:hover {
-    color: #b8860b;
-}
-
-/* =========================================================
-   STRUCTURE DES SECTIONS
-========================================================= */
-
-.section {
-    max-width: 1100px;
-    margin: auto;
-    padding: 70px 20px;
-}
-
-.section h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* =========================================================
-   🔧 IMAGES – RÉGLAGES FACILES
-========================================================= */
 
 /* HERO */
-.hero {
-    background: url('images/hero-bg.jpg') bottom / cover no-repeat;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: #006A71;
-    position: relative;
+
+.hero{
+background:url('images/hero-bg.jpg') bottom/cover no-repeat;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
 }
 
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.45);
-    z-index: 1;
+.hero::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(255,255,255,0.45);
 }
 
-.hero > * {
-    position: relative;
-    z-index: 2;
-}
-
-/* NOTRE HISTOIRE */
-#histoire {
-    background: url('images/fond-histoire.png') bottom / cover no-repeat;
-    width: 100%;
-    max-width: none;
-    padding: 400px 20px;
+.hero-content{
+position:relative;
+z-index:2;
+transform:translateY(-80px);
+max-width:1100px;
+margin:auto;
+text-align:center;
 }
 
 /* MAIRIE */
-#mairie {
-    background: url('images/fond-mairie.png') center / cover no-repeat;
-    width: 100%;
-    max-width: none;
-    padding: 400px 20px;
+
+#mairie{
+background:url('images/fond-mairie.png') center/cover no-repeat;
+padding:400px 20px;
 }
 
-/* JOURNÉE D’ACCUEIL */
-#accueil {
-    background: url('images/fond-accueil.png') bottom / cover no-repeat;
-    width: 100%;
-    max-width: none;
-    padding: 400px 20px;
-    position: relative;
+/* JOURNEE ACCUEIL */
+
+#accueil{
+background:url('images/fond-accueil.png') bottom/cover no-repeat;
+padding:400px 20px;
+position:relative;
 }
 
-#accueil::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.45);
-    z-index: 1;
+#accueil::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(255,255,255,0.45);
 }
 
-#accueil > * {
-    position: relative;
-    z-index: 2;
+#accueil>*{position:relative;z-index:2;}
+
+/* CEREMONIE */
+
+.houppa-wrapper{
+background:url('images/fond-houppa-soiree.png') center/cover no-repeat;
+padding:120px 20px;
+position:relative;
 }
 
-/* HOUPPA + SOIRÉE */
-.houppa-wrapper {
-    background: url('images/fond-houppa-soiree.png') center / cover no-repeat;
-    padding: 120px 20px;
-    position: relative;
+.houppa-wrapper::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(255,255,255,0.45);
 }
 
-.houppa-wrapper::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.45);
-    z-index: 1;
+.houppa-wrapper>*{position:relative;z-index:2;}
+
+/* INFOS PRATIQUES */
+
+.infos-wrapper{
+background:url('images/fond-histoire.png') center/cover no-repeat;
+padding:120px 20px;
+position:relative;
 }
 
-.houppa-wrapper > * {
-    position: relative;
-    z-index: 2;
+.infos-wrapper::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(255,255,255,0.45);
 }
 
-/* INFOS + PRÉSENCE */
-.infos-wrapper {
-    background: url('images/fond-infos-presence.png') center / cover no-repeat;
-    padding: 120px 20px;
+.infos-wrapper>*{position:relative;z-index:2;}
+
+/* LIENS */
+
+.map-link{margin-top:25px;}
+
+.map-link a{
+text-decoration:none;
+border-bottom:1px solid #006A71;
+color:#006A71;
 }
 
-/* =========================================================
-   TEXTE SUR IMAGES (SANS BLOCS BLANCS)
-========================================================= */
-
-.about p,
-.events li,
-#mairie .card,
-#accueil .card,
-#infos .card {
-    background: none;
-    box-shadow: none;
-    padding: 0;
-    text-align: center;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+.map-link a:hover{
+color:#b8860b;
+border-color:#b8860b;
 }
 
-/* =========================================================
-   CARTES & LISTES
-========================================================= */
-
-.info-cards {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
+.hotel-link{
+text-decoration:none;
+color:#006A71;
+border-bottom:1px solid #006A71;
 }
 
-.card {
-    flex: 1;
-    min-width: 250px;
-    text-align: center;
+.hotel-link:hover{
+color:#b8860b;
+border-color:#b8860b;
 }
 
-/* =========================================================
-   HERO TEXTE
-========================================================= */
+/* RSVP */
 
-.hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
+.rsvp-button-container{
+display:flex;
+justify-content:center;
+margin-top:30px;
 }
 
-.hero .date {
-    margin-top: 10px;
-    font-size: 1.2rem;
+.rsvp-link{
+padding:14px 34px;
+background:linear-gradient(135deg,#006A71,#b8860b);
+color:white;
+border-radius:30px;
+text-decoration:none;
 }
 
-.hero .intro {
-    margin-top: 20px;
-    max-width: 600px;
-    margin-inline: auto;
+/* FOOTER */
+
+.footer{
+background:#f2f2f2;
+text-align:center;
+padding:22px;
 }
 
-/* Décalage vertical du texte du hero */
-.hero-content {
-    transform: translateY(-80px);
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+#mairie,
+#accueil{
+padding:200px 20px;
 }
 
-/* =========================================================
-   RSVP
-========================================================= */
-
-.rsvp-text {
-    text-align: center;
+.hero-content{
+transform:translateY(-40px);
 }
 
-.rsvp-button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.rsvp-link {
-    padding: 14px 34px;
-    background: linear-gradient(135deg, #006A71, #b8860b);
-    color: white;
-    border-radius: 30px;
-    text-decoration: none;
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer {
-    background: #f2f2f2;
-    text-align: center;
-    padding: 22px;
-    font-size: 0.9rem;
-    color: #555;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 768px) {
-
-    #histoire,
-    #mairie,
-    #accueil {
-        padding: 200px 20px;
-    }
-
-    .info-cards {
-        flex-direction: column;
-    }
-
-    .hero h1 {
-        font-size: 2.4rem;
-    }
-
-    .hero-content {
-        transform: translateY(-40px);
-    }
 }

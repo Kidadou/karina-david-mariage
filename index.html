@@ -1,129 +1,144 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Karina & David – Mariage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karina & David</title>
+<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<!-- MENU -->
 <div class="menu-button" onclick="toggleMenu()">
-    <img src="images/logo-menu.png" alt="Menu">
+<img src="images/logo-menu.png">
 </div>
 
 <nav class="menu-dropdown" id="menu">
-    <a href="#histoire" onclick="closeMenu()">Histoire</a>
-    <a href="#mairie" onclick="closeMenu()">Mairie</a>
-    <a href="#accueil" onclick="closeMenu()">Journée d’accueil</a>
-    <a href="#houppa" onclick="closeMenu()">Houppa</a>
-    <a href="#soiree" onclick="closeMenu()">Soirée</a>
-    <a href="#infos" onclick="closeMenu()">Informations pratiques</a>
-    <a href="#presence" onclick="closeMenu()">Présence</a>
+<a href="#mairie" onclick="closeMenu()">Mairie</a>
+<a href="#accueil" onclick="closeMenu()">Journée d’accueil</a>
+<a href="#ceremonie" onclick="closeMenu()">Cérémonie & soirée</a>
+<a href="#infos" onclick="closeMenu()">Informations pratiques</a>
+<a href="#presence" onclick="closeMenu()">Présence</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-    <div class="hero-content">
-        <h1>Karina & David</h1>
-        <p class="date">20 octobre 2026 · Séville, Espagne</p>
-        <p class="intro">
-            Sous le soleil andalou, au cœur de Séville,<br>
-            nous avons la joie de vous inviter à célébrer<br>
-            l’un des plus beaux jours de notre vie.
-        </p>
-    </div>
-</section>
 
-<!-- NOTRE HISTOIRE -->
-<section id="histoire" class="section about">
-    <h2>Notre histoire</h2>
-    <p>
-        C’est au fil des rencontres et des hasards que nos chemins se sont liés.
-        Aujourd’hui, avec émotion, nous souhaitons partager ce moment unique
-        entourés de ceux que nous aimons.
-    </p>
-</section>
+<div class="hero-content">
 
-<!-- MAIRIE -->
-<section id="mairie" class="section infos">
-    <h2>La mairie</h2>
-    <div class="info-cards">
-        <div class="card">
-            <h3>Cérémonie civile</h3>
-            <p>Séville, Espagne</p>
-        </div>
-    </div>
-</section>
+<h1>Karina & David</h1>
 
-<!-- JOURNÉE D’ACCUEIL -->
-<section id="accueil" class="section infos">
-    <h2>Journée d’accueil</h2>
-    <div class="info-cards">
-        <div class="card">
-            <p>Moment convivial pour se retrouver</p>
-        </div>
-    </div>
-</section>
+<p class="date">
+19 & 20 octobre 2026 · Séville, Espagne
+</p>
 
-<!-- HOUPPA + SOIRÉE -->
-<div class="houppa-wrapper">
+<br><br>
 
-    <section id="houppa" class="section events">
-        <h2>La houppa</h2>
-        <ul>
-            <li>Cérémonie religieuse</li>
-            <li>Moment d’émotion et de partage</li>
-        </ul>
-    </section>
-
-    <section id="soiree" class="section events">
-        <h2>La soirée</h2>
-        <ul>
-            <li>Vin d’honneur</li>
-            <li>Dîner & soirée dansante</li>
-        </ul>
-    </section>
+<p class="intro">
+Sous le soleil andalou, au cœur de Séville,<br>
+nous avons la joie de vous inviter à célébrer<br>
+l’un des plus beaux jours de notre vie
+</p>
 
 </div>
 
-<!-- INFOS + PRÉSENCE -->
+</section>
+
+<section id="mairie" class="section">
+<h2>La mairie</h2>
+<p>Cérémonie civile à Séville</p>
+</section>
+
+<section id="accueil" class="section">
+
+<h2>Journée d’accueil – 19 octobre 2026 à 13h</h2>
+
+<p>
+Nous sommes heureux de vous retrouver dès le 19 octobre 2026 à 13h pour lancer ensemble les festivités à la villa Hacienda Villanueva del Pítamo.<br><br>
+Une journée pour savourer la douceur de vivre espagnole, dans une atmosphère conviviale et détendue, propice aux retrouvailles, aux rires et aux premiers souvenirs partagés.
+</p>
+
+<p class="map-link">
+<a href="https://www.google.com/maps/search/?api=1&query=Hacienda+Villanueva+del+P%C3%ADtamo+Seville+Spain" target="_blank">
+Comment y aller
+</a>
+</p>
+
+</section>
+
+<div class="houppa-wrapper">
+
+<section id="ceremonie" class="section">
+
+<h2>Cérémonie et soirée – 20 octobre 2026</h2>
+
+<p>
+Place au moment d’émotion en nous retrouvant pour la houppa à Hacienda Los Parrales.<br><br>
+Des bus partiront de l’hôtel Only YOU et Melia Lebreros à 16h pour vous conduire sur le lieu.<br><br>
+La soirée se poursuivra au même endroit, entre danse et gourmandises, pour partager ensemble des souvenirs inoubliables.
+</p>
+
+<p class="map-link">
+<a href="https://www.google.com/maps/search/?api=1&query=Hacienda+Los+Parrales+Seville+Spain" target="_blank">
+Comment y aller
+</a>
+</p>
+
+</section>
+
+</div>
+
 <div class="infos-wrapper">
 
-    <section id="infos" class="section infos">
-        <h2>Informations pratiques</h2>
-        <div class="info-cards">
-            <div class="card">Hébergement</div>
-            <div class="card">Transport</div>
-            <div class="card">Dress code</div>
-        </div>
-    </section>
+<section id="infos" class="section">
 
-    <section id="presence" class="section rsvp">
-        <h2>Présence</h2>
-        <p class="rsvp-text">
-            Merci de confirmer votre présence avant le 1er septembre 2026.
-        </p>
-        <div class="rsvp-button-container">
-            <a href="https://forms.gle/ABCDEFG123" target="_blank" class="rsvp-link">
-                Confirmer ma présence
-            </a>
-        </div>
-    </section>
+<h2>Informations pratiques</h2>
+
+<p>
+
+Nous avons sélectionné deux hôtels situés au cœur de Séville :<br><br>
+
+<strong><a href="https://www.booking.com/hotel/es/melia-lebreros.fr.html" target="_blank" class="hotel-link">Melia Lebreros</a></strong> : C. Luis de Morales, 2, 41018 Sevilla, Espagne<br><br>
+
+<strong><a href="https://www.booking.com/hotel/es/only-you-sevilla.fr.html" target="_blank" class="hotel-link">Only YOU Hotel</a></strong> : Avenida Kansas City, 7, 41018 Sevilla, Espagne<br><br>
+
+Des bus partiront de ces deux hôtels, situés à seulement 5 minutes l’un de l’autre, pour vous emmener à la soirée du 20 octobre et vous ramener ensuite.<br><br>
+
+Pour plus de simplicité, nous vous conseillons de réserver votre chambre via Booking directement depuis votre mobile.
+
+</p>
+
+</section>
+
+<section id="presence" class="section">
+
+<h2>Présence</h2>
+
+<p class="rsvp-text">
+Merci de confirmer votre présence avant le 1er septembre 2026.
+</p>
+
+<div class="rsvp-button-container">
+<a class="rsvp-link" href="https://forms.gle/ABCDEFG123" target="_blank">
+Confirmer ma présence
+</a>
+</div>
+
+</section>
 
 </div>
 
 <footer class="footer">
-    <p>© 2026 Karina & David · Séville</p>
+<p>© 2026 Karina & David</p>
 </footer>
 
 <script>
-function toggleMenu() {
-    document.getElementById("menu").classList.toggle("open");
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("open");
 }
-function closeMenu() {
-    document.getElementById("menu").classList.remove("open");
+
+function closeMenu(){
+document.getElementById("menu").classList.remove("open");
 }
 </script>
 
