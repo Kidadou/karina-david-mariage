@@ -13,6 +13,96 @@ color:#006A71;
 line-height:1.6;
 }
 
+/* DOOR ANIMATION */
+
+body.no-scroll{
+overflow:hidden;
+}
+
+.door-overlay{
+position:fixed;
+inset:0;
+z-index:10000;
+background:transparent;
+overflow:hidden;
+pointer-events:none;
+}
+
+.door-img{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.door-open{
+z-index:1;
+transform:scale(1.15);
+}
+
+.door-scene{
+position:absolute;
+inset:0;
+z-index:2;
+perspective:1200px;
+animation:doorZoom 1.8s linear forwards;
+transform-origin:center center;
+
+}
+
+.door-panel{
+position:absolute;
+top:0;
+width:50%;
+height:100%;
+overflow:hidden;
+transform-style:preserve-3d;
+backface-visibility:hidden;
+}
+
+.door-left{
+left:0;
+transform-origin:left center;
+transition:transform 1.8s cubic-bezier(0.25, 0, 0.3, 1);
+}
+
+.door-left .door-img{
+width:200%;
+height:100%;
+left:0;
+object-fit:cover;
+object-position:left center;
+}
+
+.door-right{
+right:0;
+transform-origin:right center;
+transition:transform 1.8s cubic-bezier(0.25, 0, 0.3, 1);
+}
+
+.door-right .door-img{
+width:200%;
+height:100%;
+left:-100%;
+object-fit:cover;
+object-position:right center;
+}
+
+.door-scene.opening .door-left{
+transform:rotateY(-100deg);
+}
+
+.door-scene.opening .door-right{
+transform:rotateY(100deg);
+}
+
+@keyframes doorZoom{
+from{transform:scale(1)}
+to{transform:scale(1.06)}
+}
+
 /* TITRE HERO — PLUS FIN */
 
 .main-title{
