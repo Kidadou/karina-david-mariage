@@ -91,11 +91,11 @@ object-position:right center;
 }
 
 .door-scene.opening .door-left{
-transform:rotateY(-100deg);
+transform:rotateY(100deg);
 }
 
 .door-scene.opening .door-right{
-transform:rotateY(100deg);
+transform:rotateY(-100deg);
 }
 
 @keyframes doorZoom{
