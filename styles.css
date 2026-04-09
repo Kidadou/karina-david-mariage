@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Montserrat',sans-serif;
+background:#fafafa;
+color:#006A71;
+line-height:1.6;
+}
+
+/* DOOR ANIMATION */
+
+body.no-scroll{
+overflow:hidden;
+}
+
+.door-overlay{
+position:fixed;
+inset:0;
+z-index:10000;
+background:transparent;
+overflow:hidden;
+pointer-events:none;
+}
+
+.door-img{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.door-scene{
+position:absolute;
+inset:0;
+z-index:2;
+perspective:1200px;
+animation:doorZoom 1.8s linear forwards;
+transform-origin:center center;
+}
+
+.door-panel{
+position:absolute;
+top:0;
+width:50%;
+height:100%;
+overflow:hidden;
+transform-style:preserve-3d;
+backface-visibility:hidden;
+}
+
+.door-left{
+left:0;
+transform-origin:left center;
+transition:transform 1.8s cubic-bezier(0.25, 0, 0.3, 1);
+}
+
+.door-left .door-img{
+width:200%;
+height:100%;
+left:0;
+object-fit:cover;
+object-position:left center;
+}
+
+.door-right{
+right:0;
+transform-origin:right center;
+transition:transform 1.8s cubic-bezier(0.25, 0, 0.3, 1);
+}
+
+.door-right .door-img{
+width:200%;
+height:100%;
+left:-100%;
+object-fit:cover;
+object-position:right center;
+}
+
+.door-scene.opening .door-left{
+transform:rotateY(100deg);
+}
+
+.door-scene.opening .door-right{
+transform:rotateY(-100deg);
+}
+
+@media(min-aspect-ratio:3/4){
+.door-scene.opening .door-left{
+transform:rotateY(-100deg);
+}
+.door-scene.opening .door-right{
+transform:rotateY(100deg);
+}
+}
+
+@keyframes doorZoom{
+from{transform:scale(1)}
+to{transform:scale(1.06)}
+}
+
+/* TITRE HERO */
+
+.main-title{
+font-family:'Great Vibes',cursive;
+font-size:3.8rem;
+font-weight:400;
+letter-spacing:1px;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
+
+/* 🔥 DATE OCRE (ciblage ultra précis — fonctionne forcément) */
+
+.hero .hero-content p.date{
+color:#b8860b !important;
+}
+
+/* MENU */
+
+.menu-button{
+position:fixed;
+top:20px;
+right:20px;
+z-index:9999;
+cursor:pointer;
+background:rgba(255,255,255,0.85);
+padding:5px;
+border-radius:10px;
+box-shadow:0 6px 18px rgba(0,0,0,0.15);
+backdrop-filter:blur(4px);
+}
+
+.menu-button img{
+width:70px;
+filter:drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+}
+
+.menu-dropdown{
+position:fixed;
+top:100px;
+right:20px;
+background:#fff;
+border-radius:14px;
+box-shadow:0 15px 30px rgba(0,0,0,0.25);
+padding:15px 20px;
+display:none;
+z-index:9998;
+min-width:220px;
+}
+
+.menu-dropdown.open{
+display:block;
+}
+
+.menu-dropdown a{
+display:block;
+padding:12px 10px;
+text-decoration:none;
+color:#006A71;
+border-radius:8px;
+transition:all 0.25s ease;
+}
+
+.menu-dropdown a:hover{
+background:rgba(0,106,113,0.08);
+transform:translateX(6px);
+color:#b8860b;
+}
+
+/* SECTIONS */
+
+.section{
+max-width:1100px;
+margin:auto;
+padding:70px 20px;
+text-align:center;
+}
+
+.section h2{
+font-family:'Playfair Display',serif;
+margin-bottom:30px;
+}
+
+.section-date{
+display:block;
+font-size:1rem;
+margin-top:8px;
+}
+
+/* HERO */
+
+.hero{
+background:url('images/hero-bg.jpg') bottom/cover no-repeat;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
+}
+
+.hero::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(255,255,255,0.65);
+}
+
+.hero-content{
+position:relative;
+z-index:2;
+text-align:center;
+}
+
+/* MAIRIE */
+
+#mairie{
+background:url('images/fond-mairie.png') center/cover no-repeat;
+padding:400px 20px;
+}
+
+/* JOURNEE ACCUEIL */
+
+#accueil{
+background:
+linear-gradient(rgba(255,255,255,0.65),rgba(255,255,255,0.65)),
+url('images/fond-accueil.png') bottom/cover no-repeat;
+padding:400px 20px;
+}
+
+/* CEREMONIE */
+
+.houppa-wrapper{
+background:
+linear-gradient(rgba(255,255,255,0.65),rgba(255,255,255,0.65)),
+url('images/fond-houppa-soiree.png') center/cover no-repeat;
+padding:120px 20px;
+}
+
+/* INFOS */
+
+.infos-wrapper{
+background:
+linear-gradient(rgba(255,255,255,0.65),rgba(255,255,255,0.65)),
+url('images/fond-histoire.png') center 70% / cover no-repeat;
+padding:120px 20px;
+}
+
+/* LIENS */
+
+.map-link{
+margin-top:25px;
+}
+
+.map-link a{
+text-decoration:none;
+border-bottom:1px solid #006A71;
+color:#006A71;
+}
+
+.map-link a:hover{
+color:#b8860b;
+border-color:#b8860b;
+}
+
+.hotel-link{
+text-decoration:none;
+color:#006A71;
+border-bottom:1px solid #006A71;
+}
+
+.hotel-link:hover{
+color:#b8860b;
+border-color:#b8860b;
+}
+
+/* RSVP */
+
+.rsvp-button-container{
+display:flex;
+justify-content:center;
+margin-top:30px;
+}
+
+.rsvp-link{
+padding:14px 34px;
+background:linear-gradient(135deg,#006A71,#b8860b);
+color:white;
+border-radius:30px;
+text-decoration:none;
+}
+
+/* FOOTER */
+
+.footer{
+background:#f2f2f2;
+text-align:center;
+padding:22px;
+}
+
+@media(max-width:768px){
+
+#mairie,
+#accueil{
+padding:200px 20px;
+}
+
+.hero-content{
+transform:translateY(-40px);
+}
+
+}
