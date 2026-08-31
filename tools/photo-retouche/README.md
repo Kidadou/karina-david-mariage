@@ -1,39 +1,33 @@
 # Retouche photo — changement de fond
 
-Remplace le fond d'un portrait (ici : intérieur de voiture) par un décor de
-place de village, avec un flou d'arrière-plan type mode portrait.
+Remplace le fond d'un portrait (ici : intérieur de voiture) par un fond
+d'extérieur très flou, façon photo prise en mode portrait (faible profondeur
+de champ). Le décor n'est volontairement pas identifiable : ce sont des masses
+de couleur (pierre chaude, feuillage, ombre au sol) floutées et des disques de
+bokeh, ce qui donne un rendu photographique plutôt qu'illustré.
 
-## Étapes
+## Utilisation
 
-1. Détourage du sujet avec `rembg` (modèle `birefnet-general`) :
+```bash
+pip install pillow rembg onnxruntime
+mkdir -p work && cp <photo> work/source.jpg
 
-   ```bash
-   pip install pillow rembg onnxruntime
-   mkdir -p work && cp <photo> work/source.jpg
-   python -c "from rembg import remove,new_session;from PIL import Image;\
-   img=Image.open('work/source.jpg').resize((1600,1600));\
-   remove(img,session=new_session('birefnet-general'),only_mask=True).save('work/mask_birefnet-general.png')"
-   ```
+# 1. détourage du sujet (modèle birefnet-general)
+python -c "from rembg import remove,new_session;from PIL import Image;\
+img=Image.open('work/source.jpg').resize((1600,1600));\
+remove(img,session=new_session('birefnet-general'),only_mask=True).save('work/mask_birefnet-general.png')"
 
-2. Décor de place de village (façades, clocher, platanes, terrasse, pavés),
-   rendu puis fortement flouté pour simuler la faible profondeur de champ :
+# 2. fond flou + compositing
+WORKDIR=work/ python compose_bokeh.py    # -> work/result_bokeh.jpg
+```
 
-   ```bash
-   python village_bg.py           # -> village_sharp.png
-   WORKDIR=work/ python compose.py  # -> work/result.jpg
-   ```
+Variables d'environnement : `WORKDIR` (dossier de travail), `SRC` (photo source).
 
-3. Variante sur le fond aquarelle du site (patio andalou) :
+Le compositing fait : retrait du liseré de bord, raccord de lumière (le sujet
+est réchauffé, un halo clair déborde du fond sur ses contours) et grain commun
+aux deux couches pour unifier le montage.
 
-   ```bash
-   WORKDIR=work/ BG=../../images/hero-bg.jpg python compose_aquarelle.py
-   ```
+## Résultat
 
-Variables d'environnement : `WORKDIR` (dossier de travail), `SRC` (photo
-source), `BG` (fond de la variante aquarelle).
-
-## Résultats
-
-- `images/photos/david-place-village.jpg` — place de village ensoleillée
-- `images/photos/david-patio-aquarelle.jpg` — fond aquarelle du site
-- suffixe `-1200` : versions allégées pour le web
+- `images/photos/david-portrait-exterieur.jpg` (3340×3340)
+- `images/photos/david-portrait-exterieur-1200.jpg` (version web)
