@@ -1,319 +1,324 @@
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap');
+/* Karina & David — kd2026.fr
+   Mise en page : une colonne centrée comme un faire-part illustré.
+   Chaque partie est une « carte » au format de ses aquarelles (2:3),
+   l'aquarelle en fond entière, le texte dans le ciel clair du haut. */
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root {
+  --teal: #006A71;
+  --ochre: #b8860b;
+  --paper: #fffdf9;
+  --col: 760px;                       /* largeur de la colonne sur ordinateur */
+  --font-script: 'Great Vibes', 'Snell Roundhand', cursive;
+  --font-title: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 }
 
-body{
-font-family:'Montserrat',sans-serif;
-background:#fafafa;
-color:#006A71;
-line-height:1.6;
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: var(--font-body);
+  color: var(--teal);
+  line-height: 1.65;
+  background: #f6f1e9 url('images/web/page.jpg') center / cover fixed;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* DOOR ANIMATION */
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ochre); outline-offset: 3px; }
 
-body.no-scroll{
-overflow:hidden;
+/* ---------- PORTES (animation d'entrée) ---------- */
+
+body.no-scroll { overflow: hidden; }
+
+.door-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.door-overlay{
-position:fixed;
-inset:0;
-z-index:10000;
-background:transparent;
-overflow:hidden;
-pointer-events:none;
+.door-scene {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  transform-origin: center center;
+}
+.door-scene.zoom { animation: doorZoom 1.8s linear forwards; }
+
+.door-panel {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 1.8s cubic-bezier(0.25, 0, 0.3, 1);
+}
+.door-left { left: 0; transform-origin: left center; }
+.door-right { right: 0; transform-origin: right center; }
+
+.door-img {
+  position: absolute;
+  top: 0;
+  width: 200%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+}
+.door-left .door-img { left: 0; object-position: left center; }
+.door-right .door-img { left: -100%; object-position: right center; }
+
+.door-scene.opening .door-left { transform: rotateY(100deg); }
+.door-scene.opening .door-right { transform: rotateY(-100deg); }
+
+@media (min-aspect-ratio: 3/4) {
+  .door-scene.opening .door-left { transform: rotateY(-100deg); }
+  .door-scene.opening .door-right { transform: rotateY(100deg); }
 }
 
-.door-img{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
+@keyframes doorZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
 }
 
-.door-scene{
-position:absolute;
-inset:0;
-z-index:2;
-perspective:1200px;
-animation:doorZoom 1.8s linear forwards;
-transform-origin:center center;
+/* ---------- MENU ---------- */
+
+.menu-button {
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: 16px;
+  z-index: 9999;
+  border: 0;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 5px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.menu-button img { width: 64px; height: auto; }
+
+.menu-dropdown {
+  position: fixed;
+  top: calc(96px + env(safe-area-inset-top, 0px));
+  right: 16px;
+  z-index: 9998;
+  min-width: 230px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+.menu-dropdown.open { display: block; }
+.menu-dropdown a {
+  display: block;
+  padding: 12px 12px;
+  text-decoration: none;
+  color: var(--teal);
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.menu-dropdown a:hover,
+.menu-dropdown a:focus-visible {
+  background: rgba(0, 106, 113, 0.08);
+  color: var(--ochre);
+  transform: translateX(4px);
 }
 
-.door-panel{
-position:absolute;
-top:0;
-width:50%;
-height:100%;
-overflow:hidden;
-transform-style:preserve-3d;
-backface-visibility:hidden;
+/* ---------- COLONNE ET CARTES ---------- */
+
+.page {
+  width: min(100%, var(--col));
+  margin: 0 auto;
+  background: var(--paper);
+  box-shadow: 0 0 80px rgba(0, 70, 75, 0.14);
 }
 
-.door-left{
-left:0;
-transform-origin:left center;
-transition:transform 1.8s cubic-bezier(0.25, 0, 0.3, 1);
+.panel {
+  position: relative;
+  aspect-ratio: 2 / 3;                 /* format des aquarelles : l'image est entière */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(64px, 13vw, 110px) clamp(22px, 7vw, 64px) clamp(48px, 9vw, 80px);
+  background: var(--img) center bottom / cover no-repeat, var(--paper);
+  isolation: isolate;
+}
+/* voile blanc en haut pour que le texte se lise sur le ciel */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom,
+    rgba(255, 253, 249, 0.9) 0%,
+    rgba(255, 253, 249, 0.78) 34%,
+    rgba(255, 253, 249, 0.35) 56%,
+    rgba(255, 253, 249, 0) 72%);
+}
+.panel > * + * { margin-top: 1.1rem; }
+
+.hero      { --img: url('images/web/hero.jpg'); }
+#accueil   { --img: url('images/web/accueil.jpg'); }
+#ceremonie { --img: url('images/web/ceremonie.jpg'); }
+#infos     { --img: url('images/web/infos.jpg'); }
+#cagnotte  { --img: url('images/web/cagnotte.jpg'); aspect-ratio: auto; }
+
+section { scroll-margin-top: 0; }
+
+/* ---------- TEXTES ---------- */
+
+.hero {
+  aspect-ratio: auto;                  /* sinon la hauteur mini élargirait la carte */
+  min-height: max(100vh, calc(min(100vw, var(--col)) * 1.5));
+  min-height: max(100svh, calc(min(100vw, var(--col)) * 1.5));
+  justify-content: flex-start;
+  padding-top: clamp(120px, 30vw, 230px);
+}
+.main-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(3.4rem, 13vw, 5.4rem);
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+}
+.hero .date {
+  margin-top: 0.8rem;
+  color: var(--ochre);
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+}
+.hero .intro {
+  margin-top: 1.8rem;
+  max-width: 30ch;
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
-.door-left .door-img{
-width:200%;
-height:100%;
-left:0;
-object-fit:cover;
-object-position:left center;
+.panel h2 {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 6vw, 2.35rem);
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+  text-wrap: balance;
+}
+.section-date {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: var(--ochre);
+}
+.panel p { max-width: 34em; font-size: 1rem; }
+.panel strong { font-weight: 500; }
+.panel u { text-decoration-color: rgba(0, 106, 113, 0.45); text-underline-offset: 3px; }
+
+/* ---------- LIENS ---------- */
+
+.map-link { margin-top: 1.6rem !important; }
+.map-link a,
+.hotel-link {
+  text-decoration: none;
+  color: var(--teal);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: color 0.2s ease;
+}
+.map-link a:hover,
+.hotel-link:hover { color: var(--ochre); }
+
+/* ---------- CAGNOTTE ---------- */
+
+#cagnotte .salutation {
+  font-family: var(--font-title);
+  font-style: italic;
+  font-size: 1.15rem;
+}
+#cagnotte .signature {
+  font-family: var(--font-script);
+  font-size: 2rem;
+  line-height: 1.2;
+}
+.cagnotte-visuel {
+  margin-top: 1.8rem !important;
+  width: min(100%, 440px);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(0, 60, 65, 0.22);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.cagnotte-visuel img { width: 100%; height: auto; aspect-ratio: 1; background: #e9e4da; }
+.cagnotte-visuel:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0, 60, 65, 0.28); }
+
+.bouton-zone { margin-top: 1.8rem !important; }
+.bouton {
+  display: inline-block;
+  padding: 15px 34px;
+  background: linear-gradient(135deg, var(--teal), var(--ochre));
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 20px rgba(0, 106, 113, 0.25);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.bouton:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+/* ---------- PIED DE PAGE ---------- */
+
+.footer {
+  text-align: center;
+  padding: 22px;
+  font-size: 0.85rem;
+  background: #f3efe8;
 }
 
-.door-right{
-right:0;
-transform-origin:right center;
-transition:transform 1.8s cubic-bezier(0.25, 0, 0.3, 1);
+/* ---------- TÉLÉPHONE ---------- */
+
+@media (max-width: 760px) {
+  .page { box-shadow: none; }
+  body { background-attachment: scroll; }
+
+  /* Sur téléphone, le texte prend plus de hauteur que le ciel de l'aquarelle :
+     l'image reste entière en bas de la carte, le texte au-dessus,
+     et un fondu relie le haut de l'image au papier. */
+  .panel:not(.hero) {
+    aspect-ratio: auto;
+    padding-bottom: calc(150vw * var(--illu, 0.5));
+    background:
+      linear-gradient(to bottom, var(--paper), rgba(255, 253, 249, 0)) center bottom calc(150vw - 120px) / 100% 120px no-repeat,
+      var(--img) center bottom / 100% auto no-repeat,
+      var(--paper);
+  }
+  .panel:not(.hero)::before {
+    background: linear-gradient(to bottom,
+      rgba(255, 253, 249, 0.6) 0%,
+      rgba(255, 253, 249, 0.4) 60%,
+      rgba(255, 253, 249, 0) 80%);
+  }
+  #accueil   { --illu: 0.52; }
+  #ceremonie { --illu: 0.6; }
+  #infos     { --illu: 0.5; }
+  #cagnotte  { --illu: 0.3; }
 }
-
-.door-right .door-img{
-width:200%;
-height:100%;
-left:-100%;
-object-fit:cover;
-object-position:right center;
+@media (hover: none) {
+  body { background-attachment: scroll; }
 }
-
-.door-scene.opening .door-left{
-transform:rotateY(100deg);
-}
-
-.door-scene.opening .door-right{
-transform:rotateY(-100deg);
-}
-
-@media(min-aspect-ratio:3/4){
-.door-scene.opening .door-left{
-transform:rotateY(-100deg);
-}
-.door-scene.opening .door-right{
-transform:rotateY(100deg);
-}
-}
-
-@keyframes doorZoom{
-from{transform:scale(1)}
-to{transform:scale(1.06)}
-}
-
-/* TITRE HERO */
-
-.main-title{
-font-family:'Great Vibes',cursive;
-font-size:3.8rem;
-font-weight:400;
-letter-spacing:1px;
--webkit-font-smoothing:antialiased;
--moz-osx-font-smoothing:grayscale;
-}
-
-/* 🔥 DATE OCRE (ciblage ultra précis — fonctionne forcément) */
-
-.hero .hero-content p.date{
-color:#b8860b !important;
-}
-
-/* MENU */
-
-.menu-button{
-position:fixed;
-top:20px;
-right:20px;
-z-index:9999;
-cursor:pointer;
-background:rgba(255,255,255,0.85);
-padding:5px;
-border-radius:10px;
-box-shadow:0 6px 18px rgba(0,0,0,0.15);
-backdrop-filter:blur(4px);
-}
-
-.menu-button img{
-width:70px;
-filter:drop-shadow(0 6px 12px rgba(0,0,0,0.35));
-}
-
-.menu-dropdown{
-position:fixed;
-top:100px;
-right:20px;
-background:#fff;
-border-radius:14px;
-box-shadow:0 15px 30px rgba(0,0,0,0.25);
-padding:15px 20px;
-display:none;
-z-index:9998;
-min-width:220px;
-}
-
-.menu-dropdown.open{
-display:block;
-}
-
-.menu-dropdown a{
-display:block;
-padding:12px 10px;
-text-decoration:none;
-color:#006A71;
-border-radius:8px;
-transition:all 0.25s ease;
-}
-
-.menu-dropdown a:hover{
-background:rgba(0,106,113,0.08);
-transform:translateX(6px);
-color:#b8860b;
-}
-
-/* SECTIONS */
-
-.section{
-max-width:1100px;
-margin:auto;
-padding:70px 20px;
-text-align:center;
-}
-
-.section h2{
-font-family:'Playfair Display',serif;
-margin-bottom:30px;
-}
-
-.section-date{
-display:block;
-font-size:1rem;
-margin-top:8px;
-}
-
-/* HERO */
-
-.hero{
-background:url('images/hero-bg.jpg') bottom/cover no-repeat;
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-position:relative;
-}
-
-.hero::before{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(255,255,255,0.65);
-}
-
-.hero-content{
-position:relative;
-z-index:2;
-text-align:center;
-}
-
-/* MAIRIE */
-
-#mairie{
-background:url('images/fond-mairie.png') center/cover no-repeat;
-padding:400px 20px;
-}
-
-/* JOURNEE ACCUEIL */
-
-#accueil{
-background:
-linear-gradient(rgba(255,255,255,0.65),rgba(255,255,255,0.65)),
-url('images/fond-accueil.png') bottom/cover no-repeat;
-padding:400px 20px;
-}
-
-/* CEREMONIE */
-
-.houppa-wrapper{
-background:
-linear-gradient(rgba(255,255,255,0.65),rgba(255,255,255,0.65)),
-url('images/fond-houppa-soiree.png') center/cover no-repeat;
-padding:120px 20px;
-}
-
-/* INFOS */
-
-.infos-wrapper{
-background:
-linear-gradient(rgba(255,255,255,0.65),rgba(255,255,255,0.65)),
-url('images/fond-histoire.png') center 70% / cover no-repeat;
-padding:120px 20px;
-}
-
-/* LIENS */
-
-.map-link{
-margin-top:25px;
-}
-
-.map-link a{
-text-decoration:none;
-border-bottom:1px solid #006A71;
-color:#006A71;
-}
-
-.map-link a:hover{
-color:#b8860b;
-border-color:#b8860b;
-}
-
-.hotel-link{
-text-decoration:none;
-color:#006A71;
-border-bottom:1px solid #006A71;
-}
-
-.hotel-link:hover{
-color:#b8860b;
-border-color:#b8860b;
-}
-
-/* RSVP */
-
-.rsvp-button-container{
-display:flex;
-justify-content:center;
-margin-top:30px;
-}
-
-.rsvp-link{
-padding:14px 34px;
-background:linear-gradient(135deg,#006A71,#b8860b);
-color:white;
-border-radius:30px;
-text-decoration:none;
-}
-
-/* FOOTER */
-
-.footer{
-background:#f2f2f2;
-text-align:center;
-padding:22px;
-}
-
-@media(max-width:768px){
-
-#mairie,
-#accueil{
-padding:200px 20px;
-}
-
-.hero-content{
-transform:translateY(-40px);
-}
-
+@media (prefers-reduced-motion: reduce) {
+  .cagnotte-visuel, .bouton, .menu-dropdown a { transition: none; }
 }
