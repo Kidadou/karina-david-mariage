@@ -47,10 +47,15 @@ body {
 .tb { fill: var(--tile-sage); }
 .ty { fill: var(--tile-gold); }
 
-.band { display: block; width: 100%; height: 60px; background: var(--tile-ground) url("/table/img/frise-sauge.jpg") repeat-x center / auto 100%; }
-.band-rule { height: 3px; background: var(--tile-gold); border-bottom: 1px solid var(--frise-line); }
+.shell { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+.band { display: block; flex: none; width: 100%; height: 60px; background: var(--tile-ground) url("/table/img/frise-sauge.jpg") repeat-x center / auto 100%; }
+.band.bottom { background-image: url("/table/img/frise-bas-sauge.jpg"); }
+.band-rule { flex: none; height: 3px; background: var(--tile-gold); border-bottom: 1px solid var(--frise-line); }
+.band-rule.bottom { border-bottom: 0; border-top: 1px solid var(--frise-line); }
 
 .wrap {
+  flex: 1 0 auto;
+  width: 100%;
   max-width: 30rem;
   margin: 0 auto;
   padding-inline: 20px;
@@ -246,6 +251,7 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
   </defs>
 </svg>
 
+<div class="shell">
 <div class="band" aria-hidden="true"></div>
 <div class="band-rule" aria-hidden="true"></div>
 
@@ -329,6 +335,10 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     <p class="pending" id="cagnotte-pending">Le lien de la cagnotte sera bientôt disponible ici.</p>
   </section>
 </main>
+
+<div class="band-rule bottom" aria-hidden="true"></div>
+<div class="band bottom" aria-hidden="true"></div>
+</div>
 
 <script>
 (function () {
