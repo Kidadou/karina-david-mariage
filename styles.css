@@ -191,12 +191,17 @@ body.no-scroll { overflow: hidden; }
   bottom: 0;
   height: var(--w);
   z-index: -1;
-  background: url('https://www.onparticipe.fr/files/kitty/kitty/1/iSMQcQQ7/bg.webp') center / cover no-repeat;
+  background:
+    /* petit voile sur le cœur dessiné sous le titre */
+    radial-gradient(ellipse 24% 3.4% at 50% 31.6%, var(--paper) 55%, rgba(255, 253, 249, 0) 100%),
+    url('https://www.onparticipe.fr/files/kitty/kitty/1/iSMQcQQ7/bg.webp') center / cover no-repeat;
   filter: saturate(0.6) brightness(1.06) contrast(0.9);
   opacity: 0.75;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 34%, rgba(0, 0, 0, 0.55) 48%, #000 62%, #000 88%, transparent 100%);
-          mask-image: linear-gradient(to bottom, transparent 0%, transparent 34%, rgba(0, 0, 0, 0.55) 48%, #000 62%, #000 88%, transparent 100%);
+  /* le titre (haut de l'image) reste caché, les montagnes apparaissent juste en dessous */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 28.5%, rgba(0, 0, 0, 0.6) 33%, rgba(0, 0, 0, 0.9) 38%, #000 45%, #000 88%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, transparent 28.5%, rgba(0, 0, 0, 0.6) 33%, rgba(0, 0, 0, 0.9) 38%, #000 45%, #000 88%, transparent 100%);
 }
+#cagnotte p { text-shadow: 0 0 8px var(--paper), 0 0 2px var(--paper); }
 
 section { scroll-margin-top: 0; }
 
