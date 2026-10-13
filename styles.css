@@ -173,7 +173,19 @@ body.no-scroll { overflow: hidden; }
 #accueil   { --img: url('images/web/accueil.jpg'); }
 #ceremonie { --img: url('images/web/ceremonie.jpg'); }
 #infos     { --img: url('images/web/infos.jpg'); }
-#cagnotte  { --img: url('images/web/cagnotte.jpg'); aspect-ratio: auto; }
+/* Cagnotte : l'aquarelle « Voyage de noces au Chili » (carrée) en fond,
+   entière en bas de la carte, le texte au-dessus, un fondu entre les deux */
+#cagnotte {
+  --img: url('https://www.onparticipe.fr/files/kitty/kitty/1/iSMQcQQ7/bg.webp');
+  --w: min(100vw, var(--col));
+  aspect-ratio: auto;
+  padding-bottom: calc(var(--w) * 0.95);
+  background:
+    linear-gradient(to bottom, var(--paper), rgba(255, 253, 249, 0)) center bottom calc(var(--w) * 0.9) / 100% calc(var(--w) * 0.1) no-repeat,
+    var(--img) center bottom / 100% auto no-repeat,
+    var(--paper);
+}
+#cagnotte::before { display: none; }
 
 section { scroll-margin-top: 0; }
 
@@ -253,17 +265,6 @@ section { scroll-margin-top: 0; }
   font-size: 2rem;
   line-height: 1.2;
 }
-.cagnotte-visuel {
-  margin-top: 1.8rem !important;
-  width: min(100%, 440px);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 14px 34px rgba(0, 60, 65, 0.22);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.cagnotte-visuel img { width: 100%; height: auto; aspect-ratio: 1; background: #e9e4da; }
-.cagnotte-visuel:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0, 60, 65, 0.28); }
-
 .bouton-zone { margin-top: 1.8rem !important; }
 .bouton {
   display: inline-block;
@@ -314,11 +315,10 @@ section { scroll-margin-top: 0; }
   #accueil   { --illu: 0.52; }
   #ceremonie { --illu: 0.6; }
   #infos     { --illu: 0.5; }
-  #cagnotte  { --illu: 0.3; }
 }
 @media (hover: none) {
   body { background-attachment: scroll; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cagnotte-visuel, .bouton, .menu-dropdown a { transition: none; }
+  .bouton, .menu-dropdown a { transition: none; }
 }
