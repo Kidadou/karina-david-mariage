@@ -1,0 +1,8 @@
+{
+  "name": "kd2026",
+  "private": true,
+  "description": "Site du mariage de Karina & David (kd2026.fr) : pages statiques + album photo (api/photos.mjs, Vercel Blob)",
+  "dependencies": {
+    "@vercel/blob": "^2.8.2"
+  }
+}

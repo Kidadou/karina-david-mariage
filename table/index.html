@@ -205,6 +205,31 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
 
 .panel { display: flex; flex-direction: column; gap: 26px; }
 
+/* ----- Accès à l'album photo ----- */
+.photos-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 14px 14px 14px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--line);
+  color: var(--ink); text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.photos-card:hover { border-color: var(--frise-line); background: #FBFCF9; }
+.photos-card:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
+.pc-art { position: relative; flex: none; width: 66px; height: 66px; }
+.pc-icon { display: grid; place-items: center; width: 66px; height: 66px; border-radius: 14px; background: var(--hl); color: var(--sage); }
+.pc-icon svg { width: 30px; height: 30px; }
+.pc-art img {
+  position: absolute; width: 50px; height: 50px; object-fit: cover;
+  border-radius: 7px; border: 2px solid #fff; background: var(--hl);
+  box-shadow: 0 2px 8px rgba(38, 53, 44, 0.2);
+}
+.pc-art img:nth-child(1) { left: 0; top: 10px; transform: rotate(-9deg); }
+.pc-art img:nth-child(2) { left: 15px; top: 3px; transform: rotate(7deg); }
+.pc-art img:nth-child(3) { left: 8px; top: 12px; transform: rotate(-1deg); }
+.pc-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pc-title { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; line-height: 1.15; color: var(--sage); }
+.pc-sub { font-size: 0.9rem; line-height: 1.35; color: var(--muted); }
+
 /* ----- Accès à la cagnotte ----- */
 .cag-pill svg { width: 26px; height: 26px; flex: none; }
 /* Pastille « Notre cagnotte » en haut à droite, posée sur la frise */
@@ -376,6 +401,19 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     </div>
     <button type="button" class="btn" id="again" data-i18n="again">Chercher une autre personne</button>
   </section>
+
+  <!-- Album photo des invités (kd2026.fr/photos) -->
+  <a class="photos-card" id="photos-card" href="https://kd2026.fr/photos">
+    <span class="pc-art" id="pc-art" aria-hidden="true">
+      <span class="pc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.3" r="3.6"/></svg></span>
+    </span>
+    <span class="pc-text">
+      <span class="kicker" id="pc-kicker">Album du mariage</span>
+      <strong class="pc-title">Partagez vos photos</strong>
+      <span class="pc-sub" id="pc-sub">Ajoutez les vôtres et découvrez celles de tous les invités.</span>
+    </span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+  </a>
 
   <footer>
     <p data-i18n="footer">Votre nom n’apparaît pas ? Adressez-vous à l’accueil.</p>
@@ -1006,6 +1044,27 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
   function fromHash() { if ((location.hash || "").replace("#", "") === "cagnotte") openSheet(null); }
   window.addEventListener("hashchange", fromHash);
   fromHash();
+
+  // ===== Album photo : sur le site, la carte montre les dernières photos partagées =====
+  (function () {
+    var card = $("photos-card");
+    if (!card || !/(^|\.)kd2026\.fr$|\.vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)) return;
+    card.href = "/photos";
+    var x = new XMLHttpRequest();
+    x.open("GET", "/api/photos");
+    x.timeout = 15000;
+    x.onload = function () {
+      var d = null; try { d = JSON.parse(x.responseText); } catch (e) {}
+      if (x.status !== 200 || !d || !d.photos || !d.photos.length) return;
+      var art = $("pc-art"); art.textContent = "";
+      d.photos.slice(0, 3).reverse().forEach(function (p) {
+        var im = new Image(); im.alt = ""; im.decoding = "async"; im.src = p.th; art.appendChild(im);
+      });
+      var n = d.photos.length;
+      $("pc-sub").textContent = (n > 1 ? n + " photos déjà partagées" : "1 photo déjà partagée") + "\u00a0: ajoutez les vôtres\u00a0!";
+    };
+    x.send();
+  })();
 
   $("demo").hidden = !EXAMPLE;
   applyLang("fr");

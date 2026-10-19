@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F6F7F1">
+<title>Vos photos · K &amp; D</title>
+<link rel="icon" type="image/png" href="/images/web/icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Album photo du mariage : même papier, même frise et mêmes couleurs que la page des tables. */
+:root {
+  --bg: #F6F7F1;
+  --surface: #FFFFFF;
+  --ink: #26352C;
+  --muted: #64705F;
+  --sage: #4D6E57;
+  --ochre: #9E6A1E;
+  --line: #DCE3D5;
+  --tile-ground: #F1F5EE;
+  --tile-gold: #DDBF7E;
+  --frise-line: #93B79D;
+  --hl: #EAF1E7;
+  --danger: #9B3B2E;
+  --font-display: "Gloock", "Bodoni 72", Didot, "Times New Roman", Georgia, serif;
+  --font-body: "Jost", Futura, "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --radius: 14px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+
+.shell { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+.band { flex: none; width: 100%; height: 60px; background: var(--tile-ground) url("/table/img/frise-sauge.jpg") repeat-x center / auto 100%; }
+.band.bottom { background-image: url("/table/img/frise-bas-sauge.jpg"); }
+.band-rule { flex: none; height: 3px; background: var(--tile-gold); border-bottom: 1px solid var(--frise-line); }
+.band-rule.bottom { border-bottom: 0; border-top: 1px solid var(--frise-line); }
+.bottom-pad { padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--tile-ground); }
+
+.wrap {
+  flex: 1 0 auto; width: 100%; max-width: 30rem; margin: 0 auto;
+  padding: 18px 20px 28px; display: flex; flex-direction: column; gap: 24px;
+}
+.crest { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.crest a { display: block; }
+.logo { display: block; width: 116px; height: auto; margin-top: 4px; }
+.couple { font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin: 4px 0 0; }
+
+.intro { display: flex; flex-direction: column; gap: 8px; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 8vw, 2.5rem); line-height: 1.08; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 36ch; }
+
+/* ----- Envoi ----- */
+.send {
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 18px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--line);
+}
+.field-label { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sage); }
+.field-label span { letter-spacing: 0.04em; text-transform: none; font-weight: 400; color: var(--muted); }
+.name-row { display: flex; flex-direction: column; gap: 6px; }
+#name {
+  width: 100%; height: 50px; padding: 0 16px;
+  font: 400 1.05rem/1 var(--font-body); color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+#name::placeholder { color: var(--muted); opacity: .7; }
+#name:focus { border-color: var(--sage); box-shadow: 0 0 0 4px var(--hl); }
+.file-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.cta {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font: 500 1.08rem/1 var(--font-body); color: #fff; text-decoration: none;
+  background: var(--sage); border: 0; border-radius: 999px; padding: 17px 22px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.cta svg { width: 22px; height: 22px; flex: none; }
+.cta:hover { filter: brightness(1.08); }
+.file-input:focus-visible + .cta, .cta:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
+.cta[aria-disabled="true"] { background: #9AAE9F; cursor: default; filter: none; }
+.hint { margin: 0; font-size: 0.88rem; color: var(--muted); text-align: center; }
+.status { display: flex; flex-direction: column; gap: 8px; }
+.status p { margin: 0; font-size: 0.95rem; }
+.status.ok p { color: var(--sage); font-weight: 500; }
+.status.err p { color: var(--danger); }
+.prog { height: 6px; border-radius: 999px; background: var(--hl); overflow: hidden; }
+.prog i { display: block; height: 100%; width: 0; background: var(--sage); border-radius: inherit; transition: width .2s ease; }
+
+.admin-badge {
+  margin: 0; padding: 10px 14px; border-radius: 10px; font-size: 0.88rem;
+  background: #FBF4E6; border: 1px solid var(--tile-gold); color: var(--ochre);
+  display: flex; justify-content: space-between; gap: 10px; align-items: center;
+}
+.admin-badge button { background: none; border: 0; padding: 0; font: inherit; color: var(--ochre); text-decoration: underline; cursor: pointer; }
+.demo { margin: 0; font-size: 0.85rem; color: var(--ochre); text-align: center; }
+
+/* ----- Album ----- */
+.album { width: 100%; max-width: 62rem; margin: 0 auto; padding: 0 12px 36px; display: flex; flex-direction: column; gap: 12px; }
+.album-head { width: 100%; max-width: 30rem; margin: 0 auto; padding: 0 8px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.album-head h2 { margin: 0; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.album-head span { font-size: 0.88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+@media (min-width: 600px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 6px; } }
+@media (min-width: 900px) { .grid { grid-template-columns: repeat(5, 1fr); } }
+.tile {
+  position: relative; display: block; padding: 0; border: 0; cursor: pointer;
+  aspect-ratio: 1; overflow: hidden; border-radius: 6px; background: var(--hl);
+  -webkit-tap-highlight-color: transparent;
+}
+.tile img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease, opacity .3s ease; }
+.tile img:not(.loaded) { opacity: 0; }
+.tile:hover img { transform: scale(1.03); }
+.tile:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+.tile.new { animation: pop .5s cubic-bezier(.2,.7,.2,1) both; }
+.tile.broken { display: none; }
+@keyframes pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+.empty, .loading {
+  width: 100%; max-width: 30rem; margin: 0 auto; padding: 26px 18px; text-align: center;
+  border: 1px dashed var(--line); border-radius: var(--radius); background: var(--surface); color: var(--muted);
+}
+.empty strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; color: var(--ink); margin-bottom: 4px; }
+.empty p, .loading p { margin: 0; }
+.sentinel { height: 1px; }
+
+.foot { width: 100%; max-width: 30rem; margin: 0 auto; padding: 0 20px 26px; display: flex; flex-direction: column; gap: 10px; }
+.foot p { margin: 0; font-size: 0.86rem; color: var(--muted); }
+.back { align-self: flex-start; font: 500 0.98rem/1 var(--font-body); color: var(--sage); text-decoration: none; border: 1.5px solid var(--sage); border-radius: 999px; padding: 13px 20px; }
+.back:hover { background: var(--hl); }
+
+/* ----- Visionneuse ----- */
+.viewer {
+  position: fixed; inset: 0; z-index: 50; background: #0E1611; color: #fff;
+  display: flex; flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  touch-action: pan-y pinch-zoom;
+}
+.v-top { flex: none; display: flex; justify-content: space-between; align-items: center; padding: 10px 10px 4px 18px; }
+.v-count { font-size: 0.85rem; color: rgba(255,255,255,.7); font-variant-numeric: tabular-nums; }
+.v-close, .v-nav {
+  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255,255,255,.12); color: #fff; font: 400 1.7rem/1 var(--font-body);
+  display: grid; place-items: center;
+}
+.v-close:hover, .v-nav:hover { background: rgba(255,255,255,.22); }
+.v-stage { flex: 1; min-height: 0; display: grid; place-items: center; padding: 6px 8px; position: relative; }
+.v-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; user-select: none; -webkit-user-select: none; }
+.v-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; }
+.v-nav.prev { left: 10px; } .v-nav.next { right: 10px; }
+@media (hover: none) { .v-nav { display: none; } }
+.v-bar { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px 14px; }
+.v-cap { min-width: 0; display: flex; flex-direction: column; line-height: 1.3; }
+.v-cap b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-cap span { font-size: 0.82rem; color: rgba(255,255,255,.65); }
+.v-actions { display: flex; gap: 8px; flex: none; }
+.v-btn {
+  font: 500 0.9rem/1 var(--font-body); color: #fff; text-decoration: none; cursor: pointer;
+  background: rgba(255,255,255,.12); border: 0; border-radius: 999px; padding: 12px 16px;
+}
+.v-btn:hover { background: rgba(255,255,255,.22); }
+.v-btn.danger { background: rgba(190, 70, 55, .35); }
+.v-btn.danger.confirm { background: #B4473A; }
+.viewer button:focus-visible, .viewer a:focus-visible { outline: 2px solid var(--tile-gold); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .tile.new { animation: none; } .tile img, .prog i { transition: none; } }
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="band" aria-hidden="true"></div>
+<div class="band-rule" aria-hidden="true"></div>
+
+<main class="wrap">
+  <header class="crest">
+    <a href="/table" aria-label="Retour au plan de table"><img class="logo" src="/table/img/logo-kd-lettres.png" alt="Monogramme K D de Karina et David" width="640" height="456"></a>
+    <p class="couple">Séville · octobre 2026</p>
+  </header>
+
+  <section class="intro">
+    <h1>Vos photos</h1>
+    <p class="lede">Partagez vos photos du mariage&nbsp;: elles rejoignent l’album, que tous les invités peuvent voir ici.</p>
+  </section>
+
+  <section class="send" aria-label="Ajouter des photos">
+    <div class="name-row">
+      <label class="field-label" for="name">Votre prénom <span>(facultatif)</span></label>
+      <input id="name" type="text" autocomplete="given-name" autocapitalize="words" maxlength="40" placeholder="Ex. Camille" enterkeyhint="done">
+    </div>
+    <input class="file-input" id="file" type="file" accept="image/*" multiple>
+    <label class="cta" for="file" id="pick">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.3" r="3.6"/></svg>
+      <span id="pick-label">Ajouter des photos</span>
+    </label>
+    <p class="hint" id="hint">Vous pouvez en choisir plusieurs d’un coup.</p>
+    <div class="status" id="status" role="status" aria-live="polite" hidden>
+      <p id="status-text"></p>
+      <div class="prog" id="prog" hidden><i id="prog-bar"></i></div>
+    </div>
+    <p class="admin-badge" id="admin-badge" hidden>Mode mariés&nbsp;: vous pouvez supprimer n’importe quelle photo. <button type="button" id="admin-off">Quitter</button></p>
+    <p class="demo" id="demo" hidden>Aperçu&nbsp;: les photos ajoutées ici restent sur votre appareil et ne sont pas envoyées.</p>
+  </section>
+</main>
+
+<section class="album" aria-labelledby="album-title">
+  <div class="album-head"><h2 id="album-title">L’album</h2><span id="count"></span></div>
+  <div class="loading" id="loading"><p>Chargement de l’album…</p></div>
+  <div class="empty" id="empty" hidden><strong>Aucune photo pour l’instant</strong><p>Soyez le premier à partager un moment de la fête&nbsp;!</p></div>
+  <div class="empty" id="closed" hidden><strong>L’album ouvre très bientôt</strong><p>Revenez dans un petit moment pour partager vos photos.</p></div>
+  <div class="grid" id="grid"></div>
+  <div class="sentinel" id="sentinel"></div>
+</section>
+
+<footer class="foot">
+  <a class="back" href="/table">← Trouver votre table</a>
+  <p>L’album est visible par toutes les personnes qui ont le lien du mariage. Les photos envoyées depuis ce téléphone peuvent être supprimées depuis ce même téléphone.</p>
+</footer>
+
+<div class="band-rule bottom" aria-hidden="true"></div>
+<div class="band bottom" aria-hidden="true"></div>
+<div class="bottom-pad"></div>
+</div>
+
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Photo" hidden>
+  <div class="v-top"><span class="v-count" id="v-count"></span><button type="button" class="v-close" id="v-close" aria-label="Fermer">×</button></div>
+  <div class="v-stage" id="v-stage">
+    <img id="v-img" alt="">
+    <button type="button" class="v-nav prev" id="v-prev" aria-label="Photo précédente">‹</button>
+    <button type="button" class="v-nav next" id="v-next" aria-label="Photo suivante">›</button>
+  </div>
+  <div class="v-bar">
+    <div class="v-cap"><b id="v-name"></b><span id="v-time"></span></div>
+    <div class="v-actions">
+      <a class="v-btn" id="v-dl" href="#" download>Télécharger</a>
+      <button type="button" class="v-btn danger" id="v-del" hidden>Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var API = "/api/photos";
+  var PAGE = 48;            // vignettes affichées à la fois (les suivantes se chargent en descendant)
+  var MAX_BATCH = 30;       // photos par envoi
+  var REFRESH = 90000;      // l'album se met à jour toutes les 90 s
+  var ON_SITE = /(^|\.)kd2026\.fr$|\.vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
+  var DEMO = !ON_SITE;      // dans l'aperçu, rien n'est envoyé
+
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function store(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  var mine = {};
+  try { mine = JSON.parse(load("kd-photos-mine") || "{}") || {}; } catch (e) { mine = {}; }
+  function saveMine() { if (!DEMO) store("kd-photos-mine", JSON.stringify(mine)); }
+  var admin = load("kd-admin");
+
+  // ----- Prénom : celui tapé ici, sinon celui cherché sur la page des tables -----
+  var nameInput = $("name");
+  var savedName = load("kd-photo-name");
+  if (savedName !== null) nameInput.value = savedName;
+  else { var last = load("kd-last"); if (last) nameInput.value = last.split("|")[0]; }
+  nameInput.addEventListener("change", function () { store("kd-photo-name", nameInput.value.trim()); });
+  nameInput.addEventListener("keydown", function (e) { if (e.key === "Enter") nameInput.blur(); });
+
+  // ----- Album -----
+  var photos = [], local = [], shown = 0, ready = false;
+  var grid = $("grid");
+
+  function fmtTime(t) {
+    try {
+      var d = new Date(t);
+      return d.toLocaleDateString("fr-FR", { day: "numeric", month: "long" }) + " à " +
+        d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }).replace(":", "h");
+    } catch (e) { return ""; }
+  }
+  function tile(p, isNew) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "tile" + (isNew ? " new" : ""); b.dataset.k = p.k;
+    b.setAttribute("aria-label", p.n ? "Photo de " + p.n : "Photo");
+    var img = document.createElement("img");
+    img.alt = ""; img.loading = "lazy"; img.decoding = "async"; img.width = 360; img.height = 360;
+    img.onload = function () { img.classList.add("loaded"); };
+    img.onerror = function () { b.classList.add("broken"); };
+    img.src = p.th;
+    b.appendChild(img);
+    b.addEventListener("click", function () { openViewer(p.k); });
+    return b;
+  }
+  function updateCount() {
+    var n = photos.length;
+    $("count").textContent = n ? n + (n > 1 ? " photos" : " photo") : "";
+    $("empty").hidden = !ready || n > 0;
+  }
+  function renderMore() {
+    var frag = document.createDocumentFragment();
+    var end = Math.min(photos.length, shown + PAGE);
+    for (var i = shown; i < end; i++) frag.appendChild(tile(photos[i]));
+    grid.appendChild(frag);
+    shown = end;
+  }
+  function rebuild() {
+    var keep = Math.max(shown, PAGE);
+    grid.textContent = ""; shown = 0;
+    while (shown < Math.min(keep, photos.length)) renderMore();
+    updateCount();
+  }
+  function setPhotos(list) {
+    var seen = {};
+    list.forEach(function (p) { seen[p.k] = 1; });
+    // une photo qu'on vient d'envoyer reste en tête tant que la liste du serveur (mise en cache) ne la contient pas
+    local = local.filter(function (p) { return !seen[p.k] && Date.now() - p.t < 10 * 60 * 1000; });
+    var next = local.concat(list);
+    var same = next.length === photos.length && next.every(function (p, i) { return p.k === photos[i].k; });
+    photos = next;
+    if (!same) rebuild(); else updateCount();
+  }
+
+  var DEMO_PICS = ["sevilla", "granada", "cordoba", "ronda", "malaga", "cadiz", "marbella", "ibiza", "madrid", "barcelona", "valencia", "mallorca"];
+  function fetchList() {
+    if (DEMO) {
+      ready = true; $("loading").hidden = true;
+      var t0 = Date.now() - 3600 * 1000;
+      setPhotos(DEMO_PICS.map(function (n, i) {
+        var u = "/table/img/" + n + ".jpg";
+        return { k: "demo-" + n, n: ["Camille", "Léo", "", "Inès", "Hugo", "Sarah"][i % 6], t: t0 - i * 420000, f: u, th: u, d: u };
+      }));
+      return;
+    }
+    var x = new XMLHttpRequest();
+    x.open("GET", API);
+    x.timeout = 20000;
+    x.onload = function () {
+      var data = null;
+      try { data = JSON.parse(x.responseText); } catch (e) {}
+      if (x.status === 200 && data && data.photos) {
+        ready = true;
+        $("loading").hidden = true; $("closed").hidden = true;
+        setUploadEnabled(true);
+        setPhotos(data.photos);
+      } else failList();
+    };
+    x.onerror = x.ontimeout = failList;
+    x.send();
+  }
+  function failList() {
+    $("loading").hidden = true;
+    if (!ready) { $("closed").hidden = false; setUploadEnabled(false); }
+  }
+  // vignettes suivantes en descendant
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && shown < photos.length) renderMore();
+    }, { rootMargin: "800px 0px" }).observe($("sentinel"));
+  } else {
+    window.addEventListener("scroll", function () {
+      if (shown < photos.length && window.innerHeight + window.scrollY > document.body.offsetHeight - 900) renderMore();
+    }, { passive: true });
+  }
+  setInterval(function () { if (!document.hidden && $("viewer").hidden && !busy) fetchList(); }, REFRESH);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden && !busy) fetchList(); });
+
+  // ----- Envoi -----
+  var fileInput = $("file"), pick = $("pick"), busy = false, uploadEnabled = true;
+  function setUploadEnabled(on) {
+    uploadEnabled = on;
+    pick.setAttribute("aria-disabled", on && !busy ? "false" : "true");
+    fileInput.disabled = !on || busy;
+  }
+  function status(text, kind, frac) {
+    var s = $("status");
+    s.hidden = !text; s.className = "status" + (kind ? " " + kind : "");
+    $("status-text").textContent = text || "";
+    $("prog").hidden = frac == null;
+    if (frac != null) $("prog-bar").style.width = Math.round(frac * 100) + "%";
+  }
+  fileInput.addEventListener("change", function () {
+    var files = Array.prototype.slice.call(fileInput.files || []);
+    fileInput.value = "";
+    if (files.length && !busy) uploadAll(files);
+  });
+
+  function loadImage(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () { resolve({ img: img, url: url }); };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("decode")); };
+      img.src = url;
+    });
+  }
+  function toBlob(canvas, q) {
+    return new Promise(function (resolve, reject) {
+      canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error("encode")); }, "image/jpeg", q);
+    });
+  }
+  // réduit la photo dans le téléphone : 1600 px max + vignette carrée de 360 px
+  function prepare(file) {
+    return loadImage(file).then(function (o) {
+      var img = o.img, w = img.naturalWidth, h = img.naturalHeight;
+      if (!w || !h) { URL.revokeObjectURL(o.url); throw new Error("decode"); }
+      var s = Math.min(1, 1600 / Math.max(w, h));
+      var c = document.createElement("canvas");
+      c.width = Math.round(w * s); c.height = Math.round(h * s);
+      var ctx = c.getContext("2d");
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(o.url);
+      var side = Math.min(c.width, c.height);
+      var t = document.createElement("canvas"); t.width = t.height = 360;
+      var tc = t.getContext("2d");
+      tc.imageSmoothingQuality = "high";
+      tc.drawImage(c, (c.width - side) / 2, (c.height - side) / 2, side, side, 0, 0, 360, 360);
+      return Promise.all([toBlob(c, 0.82), toBlob(t, 0.75)]).then(function (r) {
+        c.width = c.height = 0; t.width = t.height = 0;   // libère la mémoire (iPhone)
+        return { full: r[0], thumb: r[1] };
+      });
+    });
+  }
+  function send(imgs, name, onProgress) {
+    if (DEMO) {
+      return new Promise(function (resolve) {
+        var k = "local-" + Date.now() + Math.random().toString(36).slice(2, 6);
+        var f = URL.createObjectURL(imgs.full), th = URL.createObjectURL(imgs.thumb);
+        var p = 0, iv = setInterval(function () {
+          p += 0.25; onProgress(Math.min(p, 1));
+          if (p >= 1) { clearInterval(iv); resolve({ photo: { k: k, n: name, t: Date.now(), f: f, th: th, d: f }, token: "demo" }); }
+        }, 90);
+      });
+    }
+    return new Promise(function (resolve, reject) {
+      var fd = new FormData();
+      fd.append("name", name);
+      fd.append("thumb", imgs.thumb, "vignette.jpg");
+      fd.append("full", imgs.full, "photo.jpg");
+      var x = new XMLHttpRequest();
+      x.open("POST", API);
+      x.timeout = 120000;
+      if (x.upload) x.upload.onprogress = function (e) { if (e.lengthComputable) onProgress(e.loaded / e.total); };
+      x.onload = function () {
+        var data = null;
+        try { data = JSON.parse(x.responseText); } catch (e) {}
+        if (x.status === 200 && data && data.photo) resolve(data);
+        else reject({ retry: x.status >= 500 || x.status === 0, status: x.status });
+      };
+      x.onerror = x.ontimeout = function () { reject({ retry: true, status: 0 }); };
+      x.send(fd);
+    });
+  }
+  function sendWithRetry(imgs, name, onProgress) {
+    return send(imgs, name, onProgress).catch(function (e) {
+      if (!e || !e.retry) throw e;
+      return new Promise(function (r) { setTimeout(r, 1500); }).then(function () { return send(imgs, name, onProgress); });
+    });
+  }
+  function uploadAll(files) {
+    if (!uploadEnabled) return;
+    var extra = files.length > MAX_BATCH ? files.length - MAX_BATCH : 0;
+    files = files.slice(0, MAX_BATCH);
+    var n = files.length, ok = 0, bad = 0, failed = 0, i = 0;
+    var name = nameInput.value.trim().slice(0, 40);
+    store("kd-photo-name", name);
+    busy = true; setUploadEnabled(uploadEnabled);
+    $("pick-label").textContent = "Envoi en cours…";
+    function label() { return n > 1 ? "Envoi de la photo " + (i + 1) + " sur " + n + "…" : "Envoi de votre photo…"; }
+    function step() {
+      if (i >= n) return finish();
+      status(label(), null, i / n);
+      var file = files[i];
+      return prepare(file).then(function (imgs) {
+        return sendWithRetry(imgs, name, function (f) { status(label(), null, (i + f * 0.98) / n); })
+          .then(function (data) {
+            ok++;
+            if (data.token) { mine[data.photo.k] = data.token; saveMine(); }
+            local.unshift(data.photo);
+            photos.unshift(data.photo);
+            grid.insertBefore(tile(data.photo, true), grid.firstChild);
+            shown++;
+            ready = true; $("loading").hidden = true;
+            updateCount();
+          }, function () { failed++; });
+      }, function () { bad++; }).then(function () { i++; return step(); });
+    }
+    function finish() {
+      busy = false; setUploadEnabled(uploadEnabled);
+      $("pick-label").textContent = "Ajouter des photos";
+      var msg = [], kind = "ok";
+      if (ok) msg.push(ok > 1 ? ok + " photos ajoutées, merci !" : "Photo ajoutée, merci !");
+      if (bad) { kind = ok ? "ok" : "err"; msg.push(bad > 1 ? bad + " fichiers n’ont pas pu être lus (seules les photos sont acceptées)." : "Un fichier n’a pas pu être lu (seules les photos sont acceptées)."); }
+      if (failed) { kind = "err"; msg.push(failed > 1 ? failed + " photos n’ont pas pu être envoyées : vérifiez votre connexion et réessayez." : "Une photo n’a pas pu être envoyée : vérifiez votre connexion et réessayez."); }
+      if (extra) msg.push("Les " + extra + " suivantes n’ont pas été envoyées (30 photos maximum à la fois) : ajoutez-les ensuite.");
+      status(msg.join(" "), kind, null);
+    }
+    step();
+  }
+
+  // ----- Visionneuse -----
+  var viewer = $("viewer"), vImg = $("v-img"), vIdx = -1, lastFocus = null, delTimer;
+  function indexOf(k) { for (var i = 0; i < photos.length; i++) if (photos[i].k === k) return i; return -1; }
+  function canDelete(p) { return !!(admin || mine[p.k]); }
+  function showAt(i) {
+    if (i < 0 || i >= photos.length) return;
+    vIdx = i;
+    var p = photos[i];
+    vImg.src = p.th;                                  // la vignette s'affiche tout de suite…
+    var full = new Image();
+    full.onload = function () { if (photos[vIdx] === p) vImg.src = p.f; };   // …puis la photo entière
+    full.src = p.f;
+    [i - 1, i + 1].forEach(function (j) { if (photos[j]) { var pre = new Image(); pre.src = photos[j].th; } });
+    vImg.alt = p.n ? "Photo de " + p.n : "Photo";
+    $("v-name").textContent = p.n ? "Par " + p.n : "Photo";
+    $("v-time").textContent = fmtTime(p.t);
+    $("v-count").textContent = (i + 1) + " / " + photos.length;
+    $("v-dl").href = p.d || p.f;
+    var del = $("v-del");
+    del.hidden = !canDelete(p); del.classList.remove("confirm"); del.textContent = "Supprimer"; clearTimeout(delTimer);
+    $("v-prev").hidden = i === 0; $("v-next").hidden = i === photos.length - 1;
+    while (shown <= i + 1 && shown < photos.length) renderMore();
+  }
+  function openViewer(k) {
+    var i = indexOf(k); if (i < 0) return;
+    lastFocus = document.activeElement;
+    viewer.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    showAt(i);
+    $("v-close").focus({ preventScroll: true });
+  }
+  function closeViewer() {
+    viewer.hidden = true; vImg.removeAttribute("src");
+    document.documentElement.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  $("v-close").addEventListener("click", closeViewer);
+  $("v-prev").addEventListener("click", function () { showAt(vIdx - 1); });
+  $("v-next").addEventListener("click", function () { showAt(vIdx + 1); });
+  document.addEventListener("keydown", function (e) {
+    if (viewer.hidden) return;
+    if (e.key === "Escape") closeViewer();
+    else if (e.key === "ArrowLeft") showAt(vIdx - 1);
+    else if (e.key === "ArrowRight") showAt(vIdx + 1);
+  });
+  // balayer pour passer d'une photo à l'autre, vers le bas pour fermer
+  var tx = null, ty = null;
+  $("v-stage").addEventListener("touchstart", function (e) {
+    if (e.touches.length !== 1) { tx = null; return; }
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, { passive: true });
+  $("v-stage").addEventListener("touchend", function (e) {
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    tx = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) showAt(vIdx + (dx < 0 ? 1 : -1));
+    else if (dy > 90 && Math.abs(dy) > Math.abs(dx) * 1.5) closeViewer();
+  }, { passive: true });
+  $("v-stage").addEventListener("click", function (e) { if (e.target === $("v-stage")) closeViewer(); });
+
+  $("v-del").addEventListener("click", function () {
+    var btn = $("v-del"), p = photos[vIdx];
+    if (!p) return;
+    if (!btn.classList.contains("confirm")) {
+      btn.classList.add("confirm"); btn.textContent = "Confirmer";
+      delTimer = setTimeout(function () { btn.classList.remove("confirm"); btn.textContent = "Supprimer"; }, 4000);
+      return;
+    }
+    clearTimeout(delTimer);
+    btn.disabled = true; btn.textContent = "Suppression…";
+    function removed() {
+      btn.disabled = false;
+      delete mine[p.k]; saveMine();
+      local = local.filter(function (x) { return x.k !== p.k; });
+      var i = indexOf(p.k);
+      if (i >= 0) photos.splice(i, 1);
+      var el = grid.querySelector('[data-k="' + p.k.replace(/"/g, "") + '"]');
+      if (el) { el.parentNode.removeChild(el); shown--; }
+      updateCount();
+      if (!photos.length) closeViewer(); else showAt(Math.min(i, photos.length - 1));
+    }
+    if (DEMO) return removed();
+    var x = new XMLHttpRequest();
+    x.open("DELETE", API);
+    x.setRequestHeader("content-type", "application/json");
+    x.onload = function () {
+      if (x.status === 200) removed();
+      else { btn.disabled = false; btn.classList.remove("confirm"); btn.textContent = x.status === 403 ? "Non autorisé" : "Réessayer"; }
+    };
+    x.onerror = function () { btn.disabled = false; btn.classList.remove("confirm"); btn.textContent = "Réessayer"; };
+    x.send(JSON.stringify({ k: p.k, token: mine[p.k] || null, admin: admin || null }));
+  });
+
+  // ----- Mode mariés : kd2026.fr/photos#admin=<clé> -----
+  function showAdmin() { $("admin-badge").hidden = !admin; }
+  function checkAdminHash() {
+    var m = (location.hash || "").match(/^#admin=(.+)$/);
+    if (!m) return;
+    var key = decodeURIComponent(m[1]);
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+    if (DEMO) return;
+    var x = new XMLHttpRequest();
+    x.open("POST", API + "?check-admin");
+    x.setRequestHeader("content-type", "application/json");
+    x.onload = function () {
+      var ok = false; try { ok = JSON.parse(x.responseText).ok; } catch (e) {}
+      if (ok) { admin = key; store("kd-admin", key); showAdmin(); }
+    };
+    x.send(JSON.stringify({ admin: key }));
+  }
+  window.addEventListener("hashchange", checkAdminHash);
+  checkAdminHash();
+  $("admin-off").addEventListener("click", function () { admin = null; store("kd-admin", null); showAdmin(); });
+  showAdmin();
+
+  $("demo").hidden = !DEMO;
+  fetchList();
+})();
+</script>
+</body>
+</html>
