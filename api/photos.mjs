@@ -78,10 +78,10 @@ async function handleGet() {
   try {
     const photos = await listPhotos();
     return json({ photos }, 200, {
-      // le navigateur redemande à chaque fois, le CDN de Vercel garde la liste 90 s :
-      // cela limite le nombre d'appels à list(), qui sont comptés dans le forfait gratuit
+      // le navigateur redemande à chaque fois, le CDN de Vercel garde la liste 10 s
+      // (absorbe les pics quand tout le monde ouvre l'album en même temps)
       "cache-control": "public, max-age=0, must-revalidate",
-      "vercel-cdn-cache-control": "max-age=90, stale-while-revalidate=600",
+      "vercel-cdn-cache-control": "max-age=10, stale-while-revalidate=30",
     });
   } catch (e) {
     console.error("list failed", e);

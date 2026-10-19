@@ -251,7 +251,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 
   var API = "/api/photos";
   var PAGE = 48;            // vignettes affichées à la fois (les suivantes se chargent en descendant)
   var MAX_BATCH = 30;       // photos par envoi
-  var REFRESH = 90000;      // l'album se met à jour toutes les 90 s
+  var REFRESH = 45000;      // l'album se met à jour toutes les 45 s
   var ON_SITE = /(^|\.)kd2026\.fr$|\.vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
   var DEMO = !ON_SITE;      // dans l'aperçu, rien n'est envoyé
 
@@ -260,6 +260,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 
   var mine = {};
   try { mine = JSON.parse(load("kd-photos-mine") || "{}") || {}; } catch (e) { mine = {}; }
   function saveMine() { if (!DEMO) store("kd-photos-mine", JSON.stringify(mine)); }
+  function markFresh() { if (!DEMO) store("kd-photos-fresh", String(Date.now() + 5 * 60 * 1000)); }
   var admin = load("kd-admin");
 
   // ----- Prénom : celui tapé ici, sinon celui cherché sur la page des tables -----
@@ -335,7 +336,9 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 
       return;
     }
     var x = new XMLHttpRequest();
-    x.open("GET", API);
+    // juste après un envoi ou une suppression, on lit la liste à jour plutôt que la copie en cache
+    var fresh = Date.now() < +(load("kd-photos-fresh") || 0);
+    x.open("GET", API + (fresh ? "?t=" + Date.now() : ""));
     x.timeout = 20000;
     x.onload = function () {
       var data = null;
@@ -480,6 +483,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 
           .then(function (data) {
             ok++;
             if (data.token) { mine[data.photo.k] = data.token; saveMine(); }
+            markFresh();
             local.unshift(data.photo);
             photos.unshift(data.photo);
             grid.insertBefore(tile(data.photo, true), grid.firstChild);
@@ -574,6 +578,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 
     btn.disabled = true; btn.textContent = "Suppression…";
     function removed() {
       btn.disabled = false;
+      markFresh();
       delete mine[p.k]; saveMine();
       local = local.filter(function (x) { return x.k !== p.k; });
       var i = indexOf(p.k);

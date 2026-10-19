@@ -1051,7 +1051,8 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     if (!card || !/(^|\.)kd2026\.fr$|\.vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)) return;
     card.href = "/photos";
     var x = new XMLHttpRequest();
-    x.open("GET", "/api/photos");
+    var fresh = Date.now() < +(load("kd-photos-fresh") || 0);
+    x.open("GET", "/api/photos" + (fresh ? "?t=" + Date.now() : ""));
     x.timeout = 15000;
     x.onload = function () {
       var d = null; try { d = JSON.parse(x.responseText); } catch (e) {}
