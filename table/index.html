@@ -174,6 +174,8 @@ label.field-label {
 .st-city { fill: var(--ochre); font: 500 10px var(--font-body); letter-spacing: 0.32em; }
 .st-seat { fill: #fff; stroke: var(--tile-gold); stroke-width: 1.5; }
 .st-name { fill: var(--muted); font-family: var(--font-body); }
+.st-couple .st-seat { fill: var(--tile-gold); }
+.st-couple .st-name { fill: var(--ochre); font-weight: 600; }
 .st-me .st-seat { fill: var(--sage); stroke: #fff; stroke-width: 2.5; }
 .st-me .st-name { fill: var(--sage); font-weight: 600; }
 .st-halo { fill: var(--tile-gold); opacity: 0.4; transform-box: fill-box; transform-origin: center; animation: halo 1.8s ease-out infinite; }
@@ -610,10 +612,20 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
   GUESTS.forEach(function (g) { if (TABLES.indexOf(g[2]) < 0) console.warn("Table inconnue pour " + g[0] + " " + g[1] + " : " + g[2]); });
 
   // ===== Places attribuées (seulement pour certaines tables) =====
-  // Prénoms dans le sens des aiguilles d'une montre, en partant du haut de la table.
+  // Table ronde : prénoms dans le sens des aiguilles d'une montre, en partant du haut.
+  // Table rectangulaire : sides[0] = un grand côté (de gauche à droite sur le plan),
+  //   sides[1] = le côté en face (de gauche à droite aussi), ends = [bout gauche, bout droit],
+  //   maries = prénoms mis en valeur (les mariés).
   // Si deux personnes ont le même prénom à une table, écrire « Prénom N. ».
   var SEATING = {
-    "Madrid": ["Jonah", "Alex", "Audrey", "Sacha", "Maria", "Bryan", "Leanne", "Oriana", "Esther", "Yoel", "David"]
+    "Madrid": ["Jonah", "Alex", "Audrey", "Sacha", "Maria", "Bryan", "Leanne", "Oriana", "Esther", "Yoel", "David"],
+    "Séville": {
+      shape: "rect",
+      sides: [["Bruno", "Alexandre", "Victoria", "Karina", "David", "Thomas", "Yoann", "Laura"],
+              ["Arnaud", "Sébastien", "Mariana", "Jeremy", "Justine", "Claire", "JC", "Anne-Sophie"]],
+      ends: ["Sonia", "Isabelle"],
+      maries: ["Karina", "David"]
+    }
   };
 
   var STR = {
@@ -629,7 +641,7 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
       noneBody: "Vérifiez l’orthographe ou tapez seulement votre nom de famille. Si vous ne vous trouvez toujours pas, l’accueil vous aidera.",
       welcome: "Bienvenue, ",
       yourTable: "Votre table",
-      honor: "Table d’honneur",
+      honor: "Table des mariés",
       mates: "À votre table",
       count: function (n) { return n + " convives"; },
       you: "vous",
@@ -673,17 +685,51 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
   var seatOf = {};
   Object.keys(SEATING).forEach(function (t) {
     var atTable = guests.filter(function (x) { return x.t === t; });
-    SEATING[t].forEach(function (label, k) {
+    var order = seatOrder(t);
+    order.forEach(function (label, k) {
       var ln = norm(label);
       var hit = atTable.filter(function (x) { return norm(x.p) === ln || norm(x.p + " " + x.n.charAt(0)) === ln || norm(x.p + " " + x.n) === ln; });
       if (hit.length === 1) seatOf[hit[0].i] = k;
       else console.warn("Placement " + t + " : « " + label + " » " + (hit.length ? "ambigu, préciser l'initiale du nom" : "introuvable"));
     });
-    if (SEATING[t].length !== atTable.length) console.warn("Placement " + t + " : " + SEATING[t].length + " places pour " + atTable.length + " invités");
+    if (order.length !== atTable.length) console.warn("Placement " + t + " : " + order.length + " places pour " + atTable.length + " invités");
   });
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-  function seatSVG(t, me) {
+  // <seat-code>
+  // Ordre des places autour de la table (sert aux voisins et à la correspondance avec la liste)
+  function seatOrder(t) {
+    var st = SEATING[t];
+    if (!st) return null;
+    if (Array.isArray(st)) return st.slice();
+    return [st.ends[0]].concat(st.sides[0], [st.ends[1]], st.sides[1].slice().reverse());
+  }
+  function seatHint(t, me) {
+    var st = SEATING[t], order = seatOrder(t), N = order.length;
+    var prev = order[(me - 1 + N) % N], next = order[(me + 1) % N];
+    var between = "entre <b>" + esc(prev) + "</b> et <b>" + esc(next) + "</b>";
+    if (Array.isArray(st)) return "Votre place est " + between + ".";
+    var nA = st.sides[0].length, b = st.sides[1];
+    if (me === 0 || me === nA + 1) return "Vous êtes en bout de table, " + between + ".";
+    var face = me <= nA ? b[me - 1] : st.sides[0][b.length - 1 - (me - nA - 2)];
+    var de = face && /^[AEIOUÉÈÊÂÎÔaeiouéèêâîô]/.test(face) ? "d’" : "de ";
+    return "Votre place est " + between + (face ? ", en face " + de + "<b>" + esc(face) + "</b>" : "") + ".";
+  }
+  function seatMark(st, label, k, me) {
+    var cls = "st-place";
+    if (!Array.isArray(st) && st.maries && st.maries.indexOf(label) >= 0) cls += " st-couple";
+    if (k === me) cls += " st-me";
+    return cls;
+  }
+  function seatDot(x, y, isMe) {
+    return (isMe ? '<circle class="st-halo" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="13"/>' : "") +
+      '<circle class="st-seat" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (isMe ? 10 : 8.5) + '"/>';
+  }
+  function seatLabel(x, y, anchor, text, fs, isMe) {
+    return '<text class="st-name" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="' + anchor + '" font-size="' + (isMe ? fs + 1 : fs) + '">' + esc(text) + '</text>';
+  }
+  function seatSVG(t, me) { return Array.isArray(SEATING[t]) ? roundSVG(t, me) : rectSVG(t, me); }
+  function roundSVG(t, me) {
     var names = SEATING[t], N = names.length, many = N > 12;
     var fs = many ? 11.5 : 13;
     var rT = Math.max(64, Math.min(112, N * 6.4)), rS = rT + 22, rL = rS + 19;
@@ -697,19 +743,38 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
       var a = (-90 + k * 360 / N) * Math.PI / 180, co = Math.cos(a), si = Math.sin(a);
       var sx = cx + rS * co, sy = cy + rS * si;
       var lr = rL + (many && Math.abs(co) < 0.45 && k % 2 ? 14 : 0);
-      var lx = cx + lr * co, ly = cy + lr * si;
       var anchor = co > 0.25 ? "start" : co < -0.25 ? "end" : "middle";
       var dy = si < -0.6 ? -2 : si > 0.6 ? fs * 0.8 : fs * 0.35;
-      var isMe = k === me;
-      out.push('<g class="st-place' + (isMe ? ' st-me' : '') + '">');
-      if (isMe) out.push('<circle class="st-halo" cx="' + sx.toFixed(1) + '" cy="' + sy.toFixed(1) + '" r="13"/>');
-      out.push('<circle class="st-seat" cx="' + sx.toFixed(1) + '" cy="' + sy.toFixed(1) + '" r="' + (isMe ? 10 : 8.5) + '"/>');
-      out.push('<text class="st-name" x="' + lx.toFixed(1) + '" y="' + (ly + dy).toFixed(1) + '" text-anchor="' + anchor + '" font-size="' + (isMe ? fs + 1 : fs) + '">' + esc(names[k]) + '</text>');
-      out.push('</g>');
+      out.push('<g class="' + seatMark(SEATING[t], names[k], k, me) + '">' + seatDot(sx, sy, k === me) +
+        seatLabel(cx + lr * co, cy + lr * si + dy, anchor, names[k], fs, k === me) + '</g>');
     }
     out.push('</svg>');
     return out.join("");
   }
+  // Table rectangulaire dessinée à la verticale (plus lisible sur téléphone) :
+  // le bout gauche du plan est en haut, sides[0] à droite, sides[1] à gauche, le bout droit en bas.
+  function rectSVG(t, me) {
+    var st = SEATING[t], A = st.sides[0], B = st.sides[1], nA = A.length, nB = B.length, rows = Math.max(nA, nB);
+    var order = seatOrder(t), fs = 13, pitch = 38, tw = 84, th = rows * pitch + 14;
+    var maxLen = Math.max.apply(null, order.map(function (n) { return n.length; }));
+    var lab = maxLen * fs * 0.56;
+    var W = Math.ceil(2 * (tw / 2 + 20 + 14 + lab + 8)), H = Math.ceil(th + 2 * (20 + 16 + fs + 4));
+    var cx = W / 2, top = (H - th) / 2, left = cx - tw / 2, right = cx + tw / 2, out = [];
+    function rowY(i) { return top + 7 + pitch * (i + 0.5); }
+    function place(k, x, y, lx, ly, anchor) {
+      out.push('<g class="' + seatMark(st, order[k], k, me) + '">' + seatDot(x, y, k === me) + seatLabel(lx, ly, anchor, order[k], fs, k === me) + '</g>');
+    }
+    out.push('<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Plan de la table ' + esc(t) + '">');
+    out.push('<rect class="st-table" x="' + left + '" y="' + top + '" width="' + tw + '" height="' + th + '" rx="6"/>');
+    out.push('<text class="st-city" x="' + cx + '" y="' + (top + th / 2) + '" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 ' + cx + ' ' + (top + th / 2) + ')">' + esc(t.toUpperCase()) + '</text>');
+    place(0, cx, top - 20, cx, top - 20 - 15, "middle");
+    for (var i = 0; i < nA; i++) place(1 + i, right + 20, rowY(i), right + 34, rowY(i) + fs * 0.35, "start");
+    place(nA + 1, cx, top + th + 20, cx, top + th + 20 + 15 + fs * 0.75, "middle");
+    for (var j = 0; j < nB; j++) place(nA + 2 + (nB - 1 - j), left - 20, rowY(j), left - 34, rowY(j) + fs * 0.35, "end");
+    out.push('</svg>');
+    return out.join("");
+  }
+  // </seat-code>
 
   function tokScore(q, t, isLast) {
     if (t === q) return 3;
@@ -822,9 +887,9 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     $("seatplan").hidden = !hasPlan;
     $("mates-wrap").hidden = false;   // la liste (avec les noms de famille) reste sous le plan
     if (hasPlan) {
-      var me = seatOf[g.i], names = SEATING[g.t], N = names.length;
+      var me = seatOf[g.i];
       $("seat-svg").innerHTML = seatSVG(g.t, me);
-      $("seat-hint").innerHTML = "Votre place est entre <b>" + esc(names[(me - 1 + N) % N]) + "</b> et <b>" + esc(names[(me + 1) % N]) + "</b>.";
+      $("seat-hint").innerHTML = seatHint(g.t, me);
     }
     var mates = guests.filter(function (x) { return x.t === g.t; })
       .sort(function (a, b) { return (a.i === g.i ? -1 : b.i === g.i ? 1 : 0) || a.n.localeCompare(b.n, "fr") || a.i - b.i; });
