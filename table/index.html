@@ -396,11 +396,11 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
 <script>
 (function () {
   // ===== Tables du mariage (générées depuis la liste Excel) =====
-  var TABLES = ["Malaga", "Salamanque", "Grenade", "Cadix", "Ronda", "Marbella", "Valence", "Alicante", "Cordoue", "Barcelone", "Séville", "Saint-Sébastien", "Ibiza", "Madrid", "Majorque"];
-  var TABLE_NUM = {"Malaga": 1, "Salamanque": 2, "Grenade": 3, "Cadix": 4, "Ronda": 5, "Marbella": 6, "Valence": 7, "Alicante": 8, "Cordoue": 9, "Barcelone": 10, "Séville": 11, "Saint-Sébastien": 12, "Ibiza": 13, "Madrid": 14, "Majorque": 15};
+  var TABLES = ["Valence", "Majorque", "Madrid", "Saint-Sébastien", "Alicante", "Ibiza", "Malaga", "Marbella", "Cadix", "Barcelone", "Séville", "Cordoue", "Ronda", "Grenade", "Salamanque"];
+  var TABLE_NUM = {"Valence": 1, "Majorque": 2, "Madrid": 3, "Saint-Sébastien": 4, "Alicante": 5, "Ibiza": 6, "Malaga": 7, "Marbella": 8, "Cadix": 9, "Barcelone": 10, "Séville": 11, "Cordoue": 12, "Ronda": 13, "Grenade": 14, "Salamanque": 15};
   var HONOR = "Séville";
   // Illustrations envoyées par Karina
-  var PHOTOS = {"Malaga": "/table/img/malaga.jpg", "Salamanque": "/table/img/salamanca.jpg", "Grenade": "/table/img/granada.jpg", "Cadix": "/table/img/cadiz.jpg", "Ronda": "/table/img/ronda.jpg", "Marbella": "/table/img/marbella.jpg", "Valence": "/table/img/valencia.jpg", "Alicante": "/table/img/alicante.jpg", "Cordoue": "/table/img/cordoba.jpg", "Barcelone": "/table/img/barcelona.jpg", "Séville": "/table/img/sevilla.jpg", "Saint-Sébastien": "/table/img/san-sebastian.jpg", "Ibiza": "/table/img/ibiza.jpg", "Madrid": "/table/img/madrid.jpg", "Majorque": "/table/img/mallorca.jpg"};
+  var PHOTOS = {"Valence": "/table/img/valencia.jpg", "Majorque": "/table/img/mallorca.jpg", "Madrid": "/table/img/madrid.jpg", "Saint-Sébastien": "/table/img/san-sebastian.jpg", "Alicante": "/table/img/alicante.jpg", "Ibiza": "/table/img/ibiza.jpg", "Malaga": "/table/img/malaga.jpg", "Marbella": "/table/img/marbella.jpg", "Cadix": "/table/img/cadiz.jpg", "Barcelone": "/table/img/barcelona.jpg", "Séville": "/table/img/sevilla.jpg", "Cordoue": "/table/img/cordoba.jpg", "Ronda": "/table/img/ronda.jpg", "Grenade": "/table/img/granada.jpg", "Salamanque": "/table/img/salamanca.jpg"};
 
   // ===== Liste des invités : [prénom, nom, table, autre nom facultatif] =====
   var EXAMPLE = false;
@@ -427,8 +427,6 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     ["Joëlle", "Amar", "Cadix"],
     ["Pascale", "Amar", "Cadix"],
     ["Serge", "Amar", "Cadix"],
-    ["Mickael", "Assouline", "Cadix"],
-    ["Véronique", "Assouline", "Cadix"],
     ["Valérie", "Gozlan", "Cadix"],
     ["Corinne", "Knafo", "Cadix"],
     ["Guy", "Knafo", "Cadix"],
@@ -478,20 +476,19 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     ["Judith", "Lehrer", "Ibiza"],
     ["Jeremy", "Teddery", "Ibiza"],
     ["Pauline", "Vidal", "Ibiza"],
+    ["David", "Abecassis", "Madrid"],
+    ["Esther", "Abecassis", "Madrid"],
+    ["Yoel", "Abecassis", "Madrid"],
     ["Oriana", "Berebi", "Madrid"],
     ["Sacha", "Elharrar", "Madrid"],
     ["Alex", "Gozlan", "Madrid"],
     ["Jonah", "Gozlan", "Madrid"],
     ["Leanne", "Gozlan", "Madrid"],
-    ["Alexandra", "Groushka", "Madrid"],
     ["Maria", "Ivanova", "Madrid"],
     ["Bryan", "Knafo", "Madrid"],
     ["Audrey", "Stora", "Madrid"],
     ["Avi", "Abecassis", "Majorque"],
-    ["David", "Abecassis", "Majorque"],
-    ["Esther", "Abecassis", "Majorque"],
     ["Laurence", "Abecassis", "Majorque"],
-    ["Yoel", "Abecassis", "Majorque"],
     ["Elie", "Antebi", "Majorque"],
     ["Yaël", "Antebi", "Majorque"],
     ["Eva", "Elharrar", "Majorque"],
@@ -516,6 +513,8 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     ["Serge", "Zakine", "Malaga"],
     ["Laurence", "Amar", "Marbella"],
     ["Michael", "Amar", "Marbella"],
+    ["Mickael", "Assouline", "Marbella"],
+    ["Véronique", "Assouline", "Marbella"],
     ["Lyne", "Attia", "Marbella"],
     ["Sylvestre", "Attia", "Marbella"],
     ["Armand", "Benjoar", "Marbella"],
@@ -524,8 +523,6 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     ["Jacky", "Elharrar", "Marbella"],
     ["Nicoletta", "Stampfl", "Marbella"],
     ["Roberto", "Stampfl", "Marbella"],
-    ["Patrick", "Zagury", "Marbella"],
-    ["Sophie", "Zagury", "Marbella"],
     ["Lucy", "Asseraf", "Ronda"],
     ["Roger", "Asseraf", "Ronda"],
     ["Evelyne", "Azeraf", "Ronda"],
