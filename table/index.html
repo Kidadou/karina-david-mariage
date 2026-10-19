@@ -820,7 +820,7 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     $("medal").style.display = src ? "none" : "";
     var hasPlan = !!SEATING[g.t] && seatOf[g.i] !== undefined;
     $("seatplan").hidden = !hasPlan;
-    $("mates-wrap").hidden = hasPlan;
+    $("mates-wrap").hidden = false;   // la liste (avec les noms de famille) reste sous le plan
     if (hasPlan) {
       var me = seatOf[g.i], names = SEATING[g.t], N = names.length;
       $("seat-svg").innerHTML = seatSVG(g.t, me);
