@@ -625,6 +625,12 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
               ["Arnaud", "Sébastien", "Mariana", "Jeremy", "Justine", "Claire", "JC", "Anne-Sophie"]],
       ends: ["Sonia", "Isabelle"],
       maries: ["Karina", "David"]
+    },
+    "Ibiza": {
+      shape: "rect",
+      sides: [["Delphine", "Charlotte", "Camille", "Pauline", "Jessica", "Gabriel", "Caroline", "Audrey"],
+              ["Xavier", "Rhea", "Jeremy", "Judith", "Mickael", "Eva", "Laurène", "Tatiana", "Julien"]],
+      ends: ["Steven", "Oliver"]
     }
   };
 
@@ -711,9 +717,17 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     if (Array.isArray(st)) return "Votre place est " + between + ".";
     var nA = st.sides[0].length, b = st.sides[1];
     if (me === 0 || me === nA + 1) return "Vous êtes en bout de table, " + between + ".";
-    var face = me <= nA ? b[me - 1] : st.sides[0][b.length - 1 - (me - nA - 2)];
-    var de = face && /^[AEIOUÉÈÊÂÎÔaeiouéèêâîô]/.test(face) ? "d’" : "de ";
-    return "Votre place est " + between + (face ? ", en face " + de + "<b>" + esc(face) + "</b>" : "") + ".";
+    // position le long de la table, centrée : les places d'un côté plus court sont décalées d'une demi-place
+    var A = st.sides[0], onA = me <= nA, idx = onA ? me - 1 : b.length - 1 - (me - nA - 2);
+    var mine = onA ? A : b, other = onA ? b : A;
+    var pos = idx - (mine.length - 1) / 2;
+    var faces = other.filter(function (n, j) { return Math.abs(j - (other.length - 1) / 2 - pos) < 0.75; });
+    var faceTxt = "";
+    if (faces.length) {
+      var de = /^[AEIOUÉÈÊÂÎÔaeiouéèêâîô]/.test(faces[0]) ? "d’" : "de ";
+      faceTxt = ", en face " + de + faces.map(function (n) { return "<b>" + esc(n) + "</b>"; }).join(" et ");
+    }
+    return "Votre place est " + between + faceTxt + ".";
   }
   function seatMark(st, label, k, me) {
     var cls = "st-place";
@@ -760,7 +774,7 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     var lab = maxLen * fs * 0.56;
     var W = Math.ceil(2 * (tw / 2 + 20 + 14 + lab + 8)), H = Math.ceil(th + 2 * (20 + 16 + fs + 4));
     var cx = W / 2, top = (H - th) / 2, left = cx - tw / 2, right = cx + tw / 2, out = [];
-    function rowY(i) { return top + 7 + pitch * (i + 0.5); }
+    function rowY(i, n) { return top + 7 + pitch * (i + 0.5 + (rows - n) / 2); }
     function place(k, x, y, lx, ly, anchor) {
       out.push('<g class="' + seatMark(st, order[k], k, me) + '">' + seatDot(x, y, k === me) + seatLabel(lx, ly, anchor, order[k], fs, k === me) + '</g>');
     }
@@ -768,9 +782,9 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     out.push('<rect class="st-table" x="' + left + '" y="' + top + '" width="' + tw + '" height="' + th + '" rx="6"/>');
     out.push('<text class="st-city" x="' + cx + '" y="' + (top + th / 2) + '" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 ' + cx + ' ' + (top + th / 2) + ')">' + esc(t.toUpperCase()) + '</text>');
     place(0, cx, top - 20, cx, top - 20 - 15, "middle");
-    for (var i = 0; i < nA; i++) place(1 + i, right + 20, rowY(i), right + 34, rowY(i) + fs * 0.35, "start");
+    for (var i = 0; i < nA; i++) place(1 + i, right + 20, rowY(i, nA), right + 34, rowY(i, nA) + fs * 0.35, "start");
     place(nA + 1, cx, top + th + 20, cx, top + th + 20 + 15 + fs * 0.75, "middle");
-    for (var j = 0; j < nB; j++) place(nA + 2 + (nB - 1 - j), left - 20, rowY(j), left - 34, rowY(j) + fs * 0.35, "end");
+    for (var j = 0; j < nB; j++) place(nA + 2 + (nB - 1 - j), left - 20, rowY(j, nB), left - 34, rowY(j, nB) + fs * 0.35, "end");
     out.push('</svg>');
     return out.join("");
   }
