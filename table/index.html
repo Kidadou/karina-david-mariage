@@ -930,7 +930,7 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     var w = $("welcome"); w.textContent = s.welcome;
     var b = document.createElement("b"); b.textContent = g.p; w.appendChild(b);
     $("city").textContent = g.t;
-    $("kicker").textContent = g.t === HONOR ? s.honor : s.yourTable;
+    $("kicker").textContent = (g.t === HONOR ? s.honor : s.yourTable) + (TABLE_NUM[g.t] ? " · n° " + TABLE_NUM[g.t] : "");
     var src = PHOTOS[g.t];
     if (src) { $("photo").src = src; $("photo").alt = "Illustration de " + g.t; }
     $("photo-wrap").hidden = !src;
@@ -977,7 +977,7 @@ footer p { margin: 0; font-size: 0.88rem; color: var(--muted); }
     var g = findSaved();
     if (!g || current || q.value) { lastBtn.hidden = true; return; }
     lastBtn.textContent = STR[lang].last;
-    var b = document.createElement("b"); b.textContent = g.p + " " + g.n + " → " + g.t;
+    var b = document.createElement("b"); b.textContent = g.p + " " + g.n + " → " + g.t + (TABLE_NUM[g.t] ? " (table " + TABLE_NUM[g.t] + ")" : "");
     lastBtn.appendChild(b);
     lastBtn.onclick = function () { show(g); };
     lastBtn.hidden = false;
